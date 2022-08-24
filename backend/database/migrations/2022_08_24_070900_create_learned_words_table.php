@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('learned_words', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('avatar')->default('default_profile_avatar.jpg');
-            $table->boolean('is_admin')->default(0);
-            $table->softDeletes();
+            $table->foreignId('finished_lesson_id')->references('id')->on('finished_lessons');
+            $table->foreignId('word_id')->references('id')->on('word_questions');
+            $table->foreignId('choice_id')->references('id')->on('choices');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('learned_words');
     }
 };
