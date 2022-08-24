@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('choices', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('word_question_id')->references('id')->on('word_questions');
-            $table->string('choice');
-            $table->boolean('is_correct');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('email_verified_at');
+            $table->dropColumn('remember_token');
+            $table->string('avatar')->default('default_profile_avatar.jpg');
+            $table->boolean('is_admin')->default(0);
             $table->softDeletes();
-            $table->timestamps();
         });
     }
 
@@ -30,6 +29,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('choices');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

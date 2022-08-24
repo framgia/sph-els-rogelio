@@ -9,7 +9,7 @@ const Button = ({
 	className,
 }) => {
 	let spinner = (isFetching || isLoading) && (
-		<div class="spinner-border me-1" role="status"></div>
+		<div className="spinner-border me-1" role="status"></div>
 	);
 	return (
 		<button

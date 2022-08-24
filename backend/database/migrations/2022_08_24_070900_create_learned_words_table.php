@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('learned_words', function (Blueprint $table) {
             $table->id();
             $table->foreignId('finished_lesson_id')->references('id')->on('finished_lessons');
-            $table->foreignId('word_id')->references('id')->on('word_questions');
+            $table->foreignId('word_question_id')->references('id')->on('word_questions');
             $table->foreignId('choice_id')->references('id')->on('choices');
             $table->timestamps();
         });

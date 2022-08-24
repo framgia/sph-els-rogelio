@@ -2,18 +2,20 @@ import React from "react";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { loginValidationSchema } from "../../validations/validation";
-import Button from "../../components/Button";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../utilities/useAuth";
+import { loginValidationSchema } from "../utilities/validation";
+import Button from "./components/button/Button";
 
 const LoginPage = () => {
-	const { signIn } = useAuth();
+	const { signIn, isLoading } = useAuth();
 	const handleFormSubmit = async () => {
-		signIn(values.email, values.password)
-			.then((res) => {
-				console.log(res);
-			})
-			.catch(() => toast.error("Credentials do not match."));
+		signIn(values.email, values.password).then((res) => {
+			if (res.status) {
+				toast.success(res.message);
+			} else {
+				toast.error(res.message);
+			}
+		});
 	};
 	const {
 		handleChange,
@@ -49,10 +51,8 @@ const LoginPage = () => {
 							placeholder="name@example.com"
 						/>
 						<label htmlFor="floatingInput">Email address</label>
-						{errors.email && touched.email ? (
+						{errors.email && touched.email && (
 							<span className="error small text-danger">{errors.email}</span>
-						) : (
-							<></>
 						)}
 					</div>
 					<div className="form-floating mt-1">
@@ -68,15 +68,14 @@ const LoginPage = () => {
 							placeholder="Password"
 						/>
 						<label htmlFor="floatingInput">Password</label>
-						{errors.password && touched.password ? (
+						{errors.password && touched.password && (
 							<span className="error text-danger small">{errors.password}</span>
-						) : (
-							<></>
 						)}
 					</div>
 					<Button
 						className={"w-100 mt-3 btn btn-lg btn-primary"}
 						isValid={isValid}
+						isLoading={isLoading}
 						handleClick={handleSubmit}
 						label={"Login"}
 					/>

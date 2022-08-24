@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import api from "../app/axios-instance/api";
+import api from "../../../utilities/api";
 import AuthContext from "./AuthContext";
 
 const Auth = ({ children }) => {
 	const [user, setUser] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const [authenticated, setAuthenticated] = useState(null);
 
 	const csrf = async () => {
@@ -22,6 +23,8 @@ const Auth = ({ children }) => {
 
 	const signIn = async (email, password) => {
 		try {
+			setIsLoading(true);
+
 			// Get CSRF cookie.
 			await csrf();
 
@@ -36,20 +39,25 @@ const Auth = ({ children }) => {
 
 			// Fetch user.
 			const user = await revalidate();
+			setIsLoading(false);
 			return user;
 		} catch (error) {
-			return error;
+			setIsLoading(false);
+			return error.response.data;
 		}
 	};
 
 	const signOut = async () => {
 		try {
+			setIsLoading(true);
 			await api.post(`/logout`);
 			// Only sign out after the server has successfully responded.
 			setUser(null);
 			setAuthenticated(false);
+			setIsLoading(false);
 		} catch (error) {
-			return error;
+			setIsLoading(false);
+			return error.response.data;
 		}
 	};
 
@@ -60,11 +68,11 @@ const Auth = ({ children }) => {
 
 	const revalidate = async () => {
 		try {
-			const { data } = await api.get("/user", {
+			const res = await api.get("/user", {
 				maxRedirects: 0,
 			});
-			setCurrentUser(data);
-			return data;
+			setCurrentUser(res.data.data);
+			return res.data;
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				if (error.response && error.response.status === 401) {
@@ -72,7 +80,7 @@ const Auth = ({ children }) => {
 					setAuthenticated(false);
 				}
 			} else {
-				return error;
+				return error.response.data;
 			}
 		}
 	};
@@ -99,6 +107,7 @@ const Auth = ({ children }) => {
 			value={{
 				user,
 				authenticated,
+				isLoading,
 				setCurrentUser,
 				signIn,
 				signOut,

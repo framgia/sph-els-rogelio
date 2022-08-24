@@ -1,7 +1,11 @@
 import * as yup from "yup";
 
 export const registrationValidationSchema = yup.object().shape({
-	name: yup.string().required("Name is required"),
+	name: yup
+		.string()
+		.matches(/^[A-Za-z ]*$/, "Please enter valid name")
+		.max(40)
+		.required("Name is required"),
 	email: yup
 		.string()
 		.email("Email must be valid")
