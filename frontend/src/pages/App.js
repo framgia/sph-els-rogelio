@@ -1,7 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/login/LoginPage";
-import RegistrationPage from "./pages/registration/RegistrationPage";
+import LoginPage from "./LoginPage";
+import RegistrationPage from "./RegistrationPage";
+
 function App() {
 	return (
 		<div className="App">

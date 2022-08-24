@@ -2,19 +2,23 @@ import { useFormik } from "formik";
 import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useRegisterUserMutation } from "../../app/features/authSlice";
-import Button from "../../components/Button";
-import { registrationValidationSchema } from "../../validations/validation";
+import Button from "./components/button/Button";
+import { registrationValidationSchema } from "../utilities/validation";
+import { useRegisterUserMutation } from "../store/authSlice";
 
 const RegistrationPage = () => {
-	const [registerUser] = useRegisterUserMutation();
+	const [registerUser, { isLoading }] = useRegisterUserMutation();
 	const handleFormSubmit = async () => {
 		try {
 			const res = await registerUser(values).unwrap();
 			toast.success(res.message);
 			resetForm();
 		} catch (error) {
-			setFieldError("email", error.data.message);
+			if (error && error.status === 500) {
+				setFieldError("email", error.data.message);
+			} else {
+				toast.success(error);
+			}
 		}
 	};
 	const {
@@ -52,10 +56,8 @@ const RegistrationPage = () => {
 							placeholder="name@example.com"
 						/>
 						<label htmlFor="floatingInput">Name</label>
-						{errors.name && touched.name ? (
+						{errors.name && touched.name && (
 							<span className="error small text-danger">{errors.name}</span>
-						) : (
-							<></>
 						)}
 					</div>
 					<div className="form-floating mt-1">
@@ -70,10 +72,8 @@ const RegistrationPage = () => {
 							placeholder="name@example.com"
 						/>
 						<label htmlFor="floatingInput">Email address</label>
-						{errors.email && touched.email ? (
+						{errors.email && touched.email && (
 							<span className="error small text-danger">{errors.email}</span>
-						) : (
-							<></>
 						)}
 					</div>
 					<div className="form-floating mt-1">
@@ -89,10 +89,8 @@ const RegistrationPage = () => {
 							placeholder="Password"
 						/>
 						<label htmlFor="floatingInput">Password</label>
-						{errors.password && touched.password ? (
+						{errors.password && touched.password && (
 							<span className="error text-danger small">{errors.password}</span>
-						) : (
-							<></>
 						)}
 					</div>
 					<div className="form-floating mt-1">
@@ -110,17 +108,16 @@ const RegistrationPage = () => {
 							placeholder="repeatPassword"
 						/>
 						<label htmlFor="floatingInput">Repeat Password</label>
-						{errors.repeatPassword && touched.repeatPassword ? (
+						{errors.repeatPassword && touched.repeatPassword && (
 							<span className="error text-danger small">
 								{errors.repeatPassword}
 							</span>
-						) : (
-							<></>
 						)}
 					</div>
 					<Button
 						className={"w-100 mt-3 btn btn-lg btn-primary"}
 						isValid={isValid}
+						isLoading={isLoading}
 						handleClick={handleSubmit}
 						label={"Register"}
 					/>

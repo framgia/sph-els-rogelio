@@ -11,16 +11,16 @@ class LearnedWord extends Model
     
     public function word()
     {
-        return $this->belongsTo(WordQuestion::class,'word_id','id');
+        return $this->belongsTo(WordQuestion::class);
     }
 
     public function choice()
     {
-        return $this->belongsTo(Choice::class,'choice_id','id');
+        return $this->belongsTo(Choice::class);
     }
     
     public function finished_lesson()
     {
-        return $this->belongsTo(FinishedLesson::class,'finished_lesson_id','id');
+        return $this->belongsTo(FinishedLesson::class);
     }
 }

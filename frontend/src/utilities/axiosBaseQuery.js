@@ -1,4 +1,4 @@
-import api from "../axios-instance/api";
+import api from "./api";
 
 export const axiosBaseQuery =
 	() =>

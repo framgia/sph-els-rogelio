@@ -18,7 +18,7 @@ class ChoiceFactory extends Factory
     public function definition()
     {
         return [
-            'word_id'=>WordQuestion::factory(),
+            'word_question_id'=>WordQuestion::factory(),
             'choice'=>$this->faker->word,
             'is_correct'=>$this->faker->boolean
         ];
