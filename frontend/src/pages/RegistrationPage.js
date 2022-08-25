@@ -13,8 +13,12 @@ const RegistrationPage = () => {
 			const res = await registerUser(values).unwrap();
 			toast.success(res.message);
 			resetForm();
-		} catch (err) {
-			toast.error(err);
+		} catch (error) {
+			if (error && error.status === 500) {
+				setFieldError("email", error.data.message);
+			} else {
+				toast.success(error);
+			}
 		}
 	};
 	const {
@@ -22,6 +26,7 @@ const RegistrationPage = () => {
 		handleSubmit,
 		handleBlur,
 		resetForm,
+		setFieldError,
 		values,
 		errors,
 		isValid,
