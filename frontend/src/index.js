@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 import Auth from "./pages/components/auth/Auth";
+import { HelmetProvider } from "react-helmet-async";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,9 @@ root.render(
 		<BrowserRouter>
 			<Auth>
 				<Provider store={store}>
-					<App />
+					<HelmetProvider>
+						<App />
+					</HelmetProvider>
 				</Provider>
 				<ToastContainer
 					position="top-right"
