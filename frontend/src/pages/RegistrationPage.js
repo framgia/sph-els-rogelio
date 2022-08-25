@@ -2,9 +2,9 @@ import { useFormik } from "formik";
 import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useRegisterUserMutation } from "../../app/features/authSlice";
-import Button from "../../components/Button";
-import { registrationValidationSchema } from "../../validations/validation";
+import Button from "./components/button/Button";
+import { registrationValidationSchema } from "../utilities/validation";
+import { useRegisterUserMutation } from "../store/authSlice";
 
 const RegistrationPage = () => {
 	const [registerUser, { isLoading }] = useRegisterUserMutation();
