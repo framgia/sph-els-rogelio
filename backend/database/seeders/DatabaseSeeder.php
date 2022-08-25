@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             ]);
             for($y=0;$y<count($words);$y++){
                 \App\Models\Choice::factory(4)->create([
-                    'word_id'=>$words[$y]->id
+                    'word_question_id'=>$words[$y]->id
                 ]);
             }
         }
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         foreach($learned1->lesson->words as $word){
             \App\Models\LearnedWord::create([
                 'finished_lesson_id'=>$learned1->id,
-                'word_id'=>$word->id,
+                'word_question_id'=>$word->id,
                 'choice_id'=>$word->choices[array_rand($items)]->id,
             ]);
         }

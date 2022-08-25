@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('choices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('word_id')->references('id')->on('word_questions');
+            $table->foreignId('word_question_id')->references('id')->on('word_questions');
             $table->string('choice');
             $table->boolean('is_correct');
             $table->softDeletes();

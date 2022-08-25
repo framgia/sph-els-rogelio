@@ -19,6 +19,6 @@ class FinishedLesson extends Model
 
     public function learned_words()
     {
-        return $this->hasMany(LearnedWord::class,'finished_lesson_id','id');
+        return $this->hasMany(LearnedWord::class);
     }
 }

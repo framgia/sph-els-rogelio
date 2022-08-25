@@ -11,10 +11,10 @@ class Choice extends Model
     use HasFactory, SoftDeletes;
     public function word()
     {
-        return $this->belongsTo(WordQuestion::class,'word_id','id');
+        return $this->belongsTo(WordQuestion::class);
     }
     public function learned_words_choice()
     {
-        return $this->hasMany(LearnedWord::class,'choice_id','id');
+        return $this->hasMany(LearnedWord::class);
     }
 }

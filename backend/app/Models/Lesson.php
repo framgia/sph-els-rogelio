@@ -13,11 +13,11 @@ class Lesson extends Model
 
     public function learned_by_users()
     {
-        return $this->belongsToMany(User::class,'finished_lessons','lesson_id','user_id')->withTimestamps();
+        return $this->belongsToMany(User::class,'finished_lessons')->withTimestamps();
     }
     
     public function words()
     {
-        return $this->hasMany(WordQuestion::class,'lesson_id','id');
+        return $this->hasMany(WordQuestion::class);
     }
 }

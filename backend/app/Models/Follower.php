@@ -9,11 +9,11 @@ class Follower extends Model
 {
     public function follower()
     {
-        return $this->belongsTo(User::class,'follower_id','id');
+        return $this->belongsTo(User::class);
     }
 
     public function following()
     {
-        return $this->belongsTo(User::class,'following_id','id');
+        return $this->belongsTo(User::class);
     }
 }
