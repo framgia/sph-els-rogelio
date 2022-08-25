@@ -4,24 +4,39 @@ import PageLayout from "./components/layout/PageLayout";
 import DataTable from "react-data-table-component";
 import Button from "./components/button/Button";
 import { customStyles } from "./components/datatable/datatable";
-import { useGetLessonsQuery } from "../store/lessonsSlice";
+import {
+	useDeleteLessonMutation,
+	useGetLessonsQuery,
+} from "../store/lessonsSlice";
 import DataLoading from "./components/loading/DataLoading";
 import ErrorPage from "./components/error/ErrorPage";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmationModal from "./components/modals/ConfirmationModal";
+import { toast } from "react-toastify";
 
 const AdminLessonsPage = () => {
 	const { data: lessons, isLoading, isError, isSuccess } = useGetLessonsQuery();
 	const [show, setShow] = useState(false);
 	const [rowID, setRowID] = useState(-1);
+	const [deleteLesson, { isLoading: deleteLoading }] =
+		useDeleteLessonMutation();
 	const navigate = useNavigate();
 	const handleDeleteButton = (id) => {
 		setRowID(id);
 		setShow(true);
 	};
-	const handleDeleteModal = () => {
-		console.log(rowID);
-		setShow(false);
+	const handleDeleteModal = async () => {
+		try {
+			const res = await deleteLesson(rowID).unwrap();
+			toast.success(res.message);
+			setShow(false);
+		} catch (error) {
+			if (error && error.status === 500) {
+				toast.error(error.message);
+			} else {
+				toast.error(error);
+			}
+		}
 	};
 	const columns = [
 		{
@@ -89,6 +104,7 @@ const AdminLessonsPage = () => {
 					body={"Are you sure to delete this lesson?"}
 					show={show}
 					setShow={setShow}
+					isLoading={deleteLoading}
 					closeLabel={"Close"}
 					actionLabel={"Delete Lesson"}
 					handleModalClick={handleDeleteModal}
