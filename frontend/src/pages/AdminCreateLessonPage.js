@@ -3,14 +3,30 @@ import PageLayout from "./components/layout/PageLayout";
 import { useFormik } from "formik";
 import { lessonValidationSchema } from "../utilities/validation";
 import Button from "./components/button/Button";
+import { useCreateLessonMutation } from "../store/lessonsSlice";
+import { toast } from "react-toastify";
 import withAdminProtection from "../utilities/withAdminProtection";
 
 const AdminCreateLessonPage = () => {
-	const handleFormSubmit = async () => {};
+	const [createLesson, { isLoading }] = useCreateLessonMutation();
+	const handleFormSubmit = async () => {
+		try {
+			const res = await createLesson(values).unwrap();
+			toast.success(res.message);
+			resetForm();
+		} catch (error) {
+			if (error && error.status === 500) {
+				toast.error(error.message);
+			} else {
+				toast.error(error);
+			}
+		}
+	};
 	const {
 		handleChange,
 		handleSubmit,
 		handleBlur,
+		resetForm,
 		values,
 		errors,
 		isValid,
@@ -67,6 +83,7 @@ const AdminCreateLessonPage = () => {
 					<Button
 						className={"w-100 mt-3 btn btn-lg btn-primary"}
 						isValid={isValid}
+						isLoading={isLoading}
 						handleClick={handleSubmit}
 						label={"Add Lesson"}
 					/>
