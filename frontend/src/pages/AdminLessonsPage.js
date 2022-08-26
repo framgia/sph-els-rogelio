@@ -58,7 +58,8 @@ const AdminLessonsPage = () => {
 				<div className="w-100 d-flex gap-1">
 					<Button
 						className="btn btn-primary btn-sm"
-						label="Add word"
+						label="View words"
+						handleClick={() => navigate(`/lessons/${row.id}/words`)}
 						isValid={true}
 					/>
 					<Button
