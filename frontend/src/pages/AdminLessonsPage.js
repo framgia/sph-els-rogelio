@@ -4,8 +4,13 @@ import PageLayout from "./components/layout/PageLayout";
 import DataTable from "react-data-table-component";
 import Button from "./components/button/Button";
 import { customStyles } from "./components/datatable/datatable";
+import { useGetLessonsQuery } from "../store/lessonsSlice";
+import DataLoading from "./components/loading/DataLoading";
+import UnauthorizedErrorPage from "./components/error/UnauthorizedErrorPage";
+import { Link } from "react-router-dom";
 
 const AdminLessonsPage = () => {
+	const { data: lessons, isLoading, isError, isSuccess } = useGetLessonsQuery();
 	const columns = [
 		{
 			name: "Title",
@@ -43,36 +48,32 @@ const AdminLessonsPage = () => {
 			),
 		},
 	];
-
-	const lessons = [
-		{
-			id: 1,
-			title: "Lorem Ipsum",
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-		},
-		{
-			id: 2,
-			title: "Lorem Ipsum",
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-		},
-		{
-			id: 3,
-			title: "Lorem Ipsum",
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-		},
-	];
-	return (
-		<PageLayout pageTitle={"Admin Dashboard"}>
+	let output;
+	if (isLoading) {
+		output = <DataLoading />;
+	}
+	if (isError) {
+		output = <UnauthorizedErrorPage />;
+	}
+	if (isSuccess) {
+		output = (
 			<DataTable
-				title="Lessons/Categories"
 				columns={columns}
 				data={lessons}
 				customStyles={customStyles}
 				pagination
 			/>
+		);
+	}
+	return (
+		<PageLayout pageTitle={"Admin Dashboard"}>
+			<div className="d-flex my-3 align-items-center">
+				<h1 className="mx-4">Lessons/Categories</h1>
+				<Link className="btn btn-success my-auto" replace to="/lessons/create">
+					Create New Lesson
+				</Link>
+			</div>
+			{output}
 		</PageLayout>
 	);
 };

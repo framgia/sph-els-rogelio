@@ -6,6 +6,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LessonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,12 @@ use App\Http\Controllers\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 Route::post('register',[RegisterController::class, 'register']);
 Route::post('login',[LoginController::class, 'login']);
 Route::post('logout',[LogoutController::class, 'logout']);
-Route::get('user',[UserController::class, 'user'])->middleware('auth:sanctum');
+Route::middleware(['auth:sanctum'])->group(function () {
+  Route::get('user',[UserController::class, 'user']);
+});
+Route::middleware(['auth:sanctum','admin'])->group(function () {
+  Route::resource('lessons',LessonController::class);
+});
