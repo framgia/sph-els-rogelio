@@ -1,12 +1,22 @@
 import React from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useGetWordsChoicesQuery } from "../store/wordsChoicesSlice";
 import withAdminProtection from "../utilities/withAdminProtection";
 import Button from "./components/button/Button";
 import { customStyles } from "./components/datatable/datatable";
+import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";
+import DataLoading from "./components/loading/DataLoading";
 
 const AdminWordsChoicesPage = () => {
+	const { lessonID } = useParams();
+	const {
+		data: lesson,
+		isLoading,
+		isError,
+		isSuccess,
+	} = useGetWordsChoicesQuery(lessonID);
 	const columns = [
 		{
 			name: "Word",
@@ -24,6 +34,7 @@ const AdminWordsChoicesPage = () => {
 		{
 			name: "Choices",
 			cell: (row) =>
+				row.choices &&
 				row.choices.map((choice) => {
 					return (
 						<span key={choice.id} className="d-flex align-items-center">
@@ -57,63 +68,37 @@ const AdminWordsChoicesPage = () => {
 			),
 		},
 	];
-	const words = [
-		{
-			id: 1,
-			word: "Sample",
-			usage: "Sample",
-			choices: [
-				{
-					id: 1,
-					choice: "Choice 1",
-					is_correct: false,
-				},
-				{
-					id: 2,
-					choice: "Choice 2",
-					is_correct: true,
-				},
-				{
-					id: 3,
-					choice: "Choice 2",
-					is_correct: false,
-				},
-				{
-					id: 4,
-					choice: "Choice 2",
-					is_correct: false,
-				},
-			],
-		},
-		{
-			id: 2,
-			word: "Sample",
-			usage:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been",
-			choices: [
-				{
-					id: 1,
-					choice: "Choice 1",
-					is_correct: false,
-				},
-				{
-					id: 2,
-					choice: "Choice 2",
-					is_correct: true,
-				},
-				{
-					id: 3,
-					choice: "Choice 2",
-					is_correct: false,
-				},
-				{
-					id: 4,
-					choice: "Choice 2",
-					is_correct: false,
-				},
-			],
-		},
-	];
+	let output;
+	if (isLoading) {
+		output = <DataLoading />;
+	}
+	if (isError) {
+		output = (
+			<ErrorPage
+				errorStatus={401}
+				errorType={"Unauthorized Access"}
+				errorMessage={"You are not authorized to access this page."}
+			/>
+		);
+	}
+	if (isSuccess) {
+		output = (
+			<>
+				<hr />
+				<div className="mb-3">
+					<h4>Lesson Details</h4>
+					<h6>Title: {lesson.title}</h6>
+					<h6>Description: {lesson.description}</h6>
+				</div>
+				<DataTable
+					columns={columns}
+					data={lesson.words}
+					customStyles={customStyles}
+					pagination
+				/>
+			</>
+		);
+	}
 	return (
 		<PageLayout pageTitle={"Admin Words and Choices"}>
 			<div className="d-flex mt-3 align-items-center">
@@ -126,18 +111,7 @@ const AdminWordsChoicesPage = () => {
 					Add Word
 				</Link>
 			</div>
-			<hr />
-			<div className="mb-3">
-				<h4>Lesson Details</h4>
-				<h6>Title: </h6>
-				<h6>Description: </h6>
-			</div>
-			<DataTable
-				columns={columns}
-				data={words}
-				customStyles={customStyles}
-				pagination
-			/>
+			{output}
 		</PageLayout>
 	);
 };
