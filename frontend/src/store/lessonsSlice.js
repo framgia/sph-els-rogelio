@@ -15,6 +15,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 					  ]
 					: [{ type: "Lesson", id: "LIST" }],
 		}),
+		getLesson: builder.query({
+			query: (id) => ({
+				url: `/lessons/${id}`,
+				method: "GET",
+			}),
+			providesTags: (result, error, id) => [{ type: "Lesson", id }],
+		}),
 		createLesson: builder.mutation({
 			query: (data) => ({
 				url: "/lessons",
@@ -23,7 +30,20 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: "Lesson", id: "LIST" }],
 		}),
+		updateLesson: builder.mutation({
+			query: ({ data, id }) => ({
+				url: `/lessons/${id}`,
+				method: "PUT",
+				data: data,
+			}),
+			invalidatesTags: (result, error, arg) => [{ type: "Lesson", id: arg.id }],
+		}),
 	}),
 });
 
-export const { useGetLessonsQuery, useCreateLessonMutation } = extendedApiSlice;
+export const {
+	useGetLessonsQuery,
+	useGetLessonQuery,
+	useCreateLessonMutation,
+	useUpdateLessonMutation,
+} = extendedApiSlice;

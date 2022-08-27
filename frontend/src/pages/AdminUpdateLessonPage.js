@@ -1,32 +1,79 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageLayout from "./components/layout/PageLayout";
 import { useFormik } from "formik";
 import { lessonValidationSchema } from "../utilities/validation";
 import Button from "./components/button/Button";
+import { useParams } from "react-router-dom";
+import {
+	useGetLessonQuery,
+	useUpdateLessonMutation,
+} from "../store/lessonsSlice";
+import DataLoading from "./components/loading/DataLoading";
+import ErrorPage from "./components/error/ErrorPage";
+import { toast } from "react-toastify";
 import withAdminProtection from "../utilities/withAdminProtection";
 
 const AdminUpdateLessonPage = () => {
-	const handleFormSubmit = async () => {};
+	const { id } = useParams();
+	const {
+		data: lesson,
+		isLoading: fetchLessonLoading,
+		isError,
+		isSuccess,
+	} = useGetLessonQuery(id);
+	const [updateLesson, { isLoading: updateLessonLoading }] =
+		useUpdateLessonMutation();
+	const handleFormSubmit = async () => {
+		try {
+			const res = await updateLesson({ data: values, id }).unwrap();
+			toast.success(res.message);
+		} catch (error) {
+			if (error && error.status === 500) {
+				toast.error(error.message);
+			} else {
+				toast.error(error);
+			}
+		}
+	};
 	const {
 		handleChange,
 		handleSubmit,
 		handleBlur,
+		setValues,
 		values,
 		errors,
 		isValid,
 		touched,
 	} = useFormik({
 		initialValues: {
-			title: "Lorem Ipsum",
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+			title: "",
+			description: "",
 		},
 		enableReinitialize: true,
 		validationSchema: lessonValidationSchema,
 		onSubmit: handleFormSubmit,
 	});
-	return (
-		<PageLayout pageTitle={"Admin Dashboard | Update Lesson"}>
+	useEffect(() => {
+		if (isSuccess) {
+			setValues({ title: lesson.title, description: lesson.description });
+		}
+	}, [isSuccess, lesson, setValues]);
+	let output;
+	if (fetchLessonLoading) {
+		output = <DataLoading />;
+	}
+	if (isError) {
+		output = (
+			<ErrorPage
+				errorStatus={404}
+				errorType={"Data not found"}
+				errorMessage={"We did not find the data you are looking for."}
+			/>
+		);
+	}
+
+	if (isSuccess) {
+		output = (
 			<div className="m-auto d-flex justify-content-center align-items-center w-100 h-100">
 				<form className="w-50 mt-5">
 					<h3>Update Lesson/Category</h3>
@@ -71,11 +118,17 @@ const AdminUpdateLessonPage = () => {
 					<Button
 						className={"w-100 mt-3 btn btn-lg btn-primary"}
 						isValid={isValid}
+						isLoading={fetchLessonLoading || updateLessonLoading}
 						handleClick={handleSubmit}
 						label={"Update Lesson"}
 					/>
 				</form>
 			</div>
+		);
+	}
+	return (
+		<PageLayout pageTitle={"Admin Dashboard | Update Lesson"}>
+			{output}
 		</PageLayout>
 	);
 };

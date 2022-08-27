@@ -28,4 +28,27 @@ class LessonController extends Controller
             'errors' => null
         ],200);
     }
+    
+    public function show(Lesson $lesson)
+    {
+        return $lesson;
+    }
+
+    public function update(Lesson $lesson,Request $request)
+    {
+        $lessonUpdate=$lesson->update([
+            'title'=>$request->title,
+            'description'=>$request->description,
+        ]);
+        if(!$lessonUpdate){
+            return response()->json(['status' => false, 'data'=>null, 'message' => 'Cannot update new lesson.', 'errors' => 'Update Error'], 500);
+        }
+        return response()->json([
+            'status' => true,
+            'data'=>$lessonUpdate, 
+            'message' => 'Lesson successfully updated.', 
+            'errors' => null
+        ],200);
+    }
+
 }

@@ -6,7 +6,7 @@ import Button from "./components/button/Button";
 import { customStyles } from "./components/datatable/datatable";
 import { useGetLessonsQuery } from "../store/lessonsSlice";
 import DataLoading from "./components/loading/DataLoading";
-import UnauthorizedErrorPage from "./components/error/UnauthorizedErrorPage";
+import ErrorPage from "./components/error/ErrorPage";
 import { Link, useNavigate } from "react-router-dom";
 
 const AdminLessonsPage = () => {
@@ -55,7 +55,13 @@ const AdminLessonsPage = () => {
 		output = <DataLoading />;
 	}
 	if (isError) {
-		output = <UnauthorizedErrorPage />;
+		output = (
+			<ErrorPage
+				errorStatus={401}
+				errorType={"Unauthorized Access"}
+				errorMessage={"You are not authorized to access this page."}
+			/>
+		);
 	}
 	if (isSuccess) {
 		output = (
