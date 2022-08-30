@@ -43,7 +43,7 @@ const Auth = ({ children }) => {
       return user;
     } catch (error) {
       setIsLoading(false);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -57,7 +57,7 @@ const Auth = ({ children }) => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      return error;
+      return error.response.data;
     }
   };
 
@@ -68,11 +68,11 @@ const Auth = ({ children }) => {
 
   const revalidate = async () => {
     try {
-      const { data } = await api.get("/user", {
+      const res = await api.get("/user", {
         maxRedirects: 0,
       });
-      setCurrentUser(data);
-      return data;
+      setCurrentUser(res.data.data);
+      return res.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response && error.response.status === 401) {
@@ -80,7 +80,7 @@ const Auth = ({ children }) => {
           setAuthenticated(false);
         }
       } else {
-        return error;
+        return error.response.data;
       }
     }
   };

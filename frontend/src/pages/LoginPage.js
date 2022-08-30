@@ -9,11 +9,13 @@ import Button from "./components/button/Button";
 const LoginPage = () => {
   const { signIn, isLoading } = useAuth();
   const handleFormSubmit = async () => {
-    signIn(values.email, values.password)
-      .then((res) => {
-        // todo: login response backend integration
-      })
-      .catch(() => toast.error("Credentials do not match."));
+    signIn(values.email, values.password).then((res) => {
+      if (res.status) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    });
   };
   const {
     handleChange,
