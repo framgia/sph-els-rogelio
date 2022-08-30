@@ -11,7 +11,7 @@ const LoginPage = () => {
   const handleFormSubmit = async () => {
     signIn(values.email, values.password)
       .then((res) => {
-        console.log(res);
+        // todo: login response backend integration
       })
       .catch(() => toast.error("Credentials do not match."));
   };
