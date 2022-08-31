@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { wordChoiceValidationSchema } from "../utilities/validation";
 import withAdminProtection from "../utilities/withAdminProtection";
 import PageLayout from "./components/layout/PageLayout";
@@ -7,10 +7,39 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "./components/button/Button";
 import { Link, useParams } from "react-router-dom";
+import {
+  useGetWordChoiceQuery,
+  useUpdateWordChoiceMutation,
+} from "../store/wordsChoicesSlice";
+import { toast } from "react-toastify";
+import DataLoading from "./components/loading/DataLoading";
+import ErrorPage from "./components/error/ErrorPage";
 
 const AdminUpdateWordsChoicesPage = () => {
-  const { lessonID } = useParams();
-  const handleFormSubmit = async () => {};
+  const { lessonID, wordID } = useParams();
+  const {
+    data: lesson,
+    isLoading: fetchWordChoiceLoading,
+    isError,
+    isSuccess,
+  } = useGetWordChoiceQuery({ lessonID, wordID });
+  const [updateWordChoice, { isLoading }] = useUpdateWordChoiceMutation();
+  const handleFormSubmit = async () => {
+    try {
+      const res = await updateWordChoice({
+        data: values,
+        lessonID,
+        wordID,
+      }).unwrap();
+      toast.success(res.message);
+    } catch (error) {
+      if (error && error.status === 500) {
+        toast.error(error.message);
+      } else {
+        toast.error(error);
+      }
+    }
+  };
   const {
     handleChange,
     handleSubmit,
@@ -18,29 +47,46 @@ const AdminUpdateWordsChoicesPage = () => {
     setFieldValue,
     setFieldError,
     setFieldTouched,
+    setValues,
     values,
     errors,
     isValid,
     touched,
   } = useFormik({
     initialValues: {
-      word: "Sample Title",
-      usage: "Sample Usage",
-      choices: [
-        { choice: "Sample Choice 1", is_correct: true },
-        { choice: "Sample Choice 2", is_correct: false },
-        { choice: "Sample Choice 3", is_correct: false },
-        { choice: "Sample Choice 4", is_correct: false },
-      ],
+      word: "",
+      usage: "",
+      choices: [],
       is_correct: 0,
     },
     enableReinitialize: true,
     validationSchema: wordChoiceValidationSchema,
     onSubmit: handleFormSubmit,
   });
+  useEffect(() => {
+    if (isSuccess) {
+      let count = 0,
+        choices = [];
+      lesson.words[0].choices.forEach((choice) => {
+        choices.push({
+          id: choice.id,
+          choice: choice.choice,
+          is_correct: choice.is_correct,
+        });
+        count += choice.is_correct ? 1 : 0;
+      });
+      let wordChoice = {
+        word: lesson.words[0].word,
+        usage: lesson.words[0].usage,
+        choices: choices,
+        is_correct: count,
+      };
+      setValues(wordChoice);
+    }
+  }, [isSuccess, lesson, setValues]);
   const handleAddChoice = async (e) => {
     let temp = [...values.choices];
-    temp.push({ choice: "", is_correct: false });
+    temp.push({ choice: "", is_correct: false, id: null });
     setFieldValue("choices", [...temp]);
   };
   const handleRemoveChoice = async (e, i) => {
@@ -56,8 +102,11 @@ const AdminUpdateWordsChoicesPage = () => {
       setFieldTouched("choices", touchTemp);
     }
     let temp = [...values.choices];
+    let count = values.is_correct;
+    count -= temp[i].is_correct ? 1 : 0;
     temp.splice(i, 1);
     setFieldValue("choices", temp);
+    setFieldValue("is_correct", count);
   };
   const handleFieldChange = async (e, i) => {
     let temp = [...values.choices];
@@ -67,18 +116,21 @@ const AdminUpdateWordsChoicesPage = () => {
     setFieldValue("choices", temp);
     setFieldValue("is_correct", count);
   };
-  return (
-    <PageLayout pageTitle={"Admin Words and Choices | Update Word"}>
-      <div className="d-flex my-3 align-items-center">
-        <h1 className="me-4">Words and Choices</h1>
-        <Link
-          className="btn btn-secondary my-auto"
-          replace
-          to={`/lessons/${lessonID}/words`}
-        >
-          Back
-        </Link>
-      </div>
+  let output;
+  if (fetchWordChoiceLoading) {
+    output = <DataLoading />;
+  }
+  if (isError) {
+    output = (
+      <ErrorPage
+        errorStatus={404}
+        errorType={"Data not found"}
+        errorMessage={"We did not find the data you are looking for."}
+      />
+    );
+  }
+  if (isSuccess) {
+    output = (
       <Row>
         <Col>
           <h5>Word</h5>
@@ -117,7 +169,8 @@ const AdminUpdateWordsChoicesPage = () => {
             className={"mt-3 btn btn-lg w-100 btn-primary text-center"}
             isValid={isValid}
             handleClick={handleSubmit}
-            label={"Add Word"}
+            isLoading={isLoading}
+            label={"Update Word"}
           />
         </Col>
         <Col>
@@ -193,6 +246,21 @@ const AdminUpdateWordsChoicesPage = () => {
           )}
         </Col>
       </Row>
+    );
+  }
+  return (
+    <PageLayout pageTitle={"Admin Words and Choices | Update Word"}>
+      <div className="d-flex my-3 align-items-center">
+        <h1 className="me-4">Words and Choices</h1>
+        <Link
+          className="btn btn-secondary my-auto"
+          replace
+          to={`/lessons/${lessonID}/words`}
+        >
+          Back
+        </Link>
+      </div>
+      {output}
     </PageLayout>
   );
 };
