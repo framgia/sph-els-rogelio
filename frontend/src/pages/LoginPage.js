@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import useAuth from "../utilities/useAuth";
 import { loginValidationSchema } from "../utilities/validation";
 import Button from "./components/button/Button";
+import withAuth from "../utilities/withAuth";
 
 const LoginPage = () => {
   const { signIn, isLoading } = useAuth();
@@ -95,4 +96,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default withAuth(LoginPage);

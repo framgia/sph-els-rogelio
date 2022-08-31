@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Button from "./components/button/Button";
 import { registrationValidationSchema } from "../utilities/validation";
 import { useRegisterUserMutation } from "../store/authSlice";
+import withAuth from "../utilities/withAuth";
 
 const RegistrationPage = () => {
   const [registerUser, { isLoading }] = useRegisterUserMutation();
@@ -133,4 +134,4 @@ const RegistrationPage = () => {
   );
 };
 
-export default RegistrationPage;
+export default withAuth(RegistrationPage);
