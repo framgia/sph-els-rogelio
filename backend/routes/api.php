@@ -8,6 +8,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\WordChoiceController;
+use App\Http\Controllers\UserLessonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ Route::post('login',[LoginController::class, 'login']);
 Route::post('logout',[LogoutController::class, 'logout']);
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('user',[UserController::class, 'user']);
+  Route::get('/user/lessons',[UserLessonController::class, 'index']);
 });
 Route::middleware(['auth:sanctum','admin'])->group(function () {
   Route::resource('lessons',LessonController::class);
