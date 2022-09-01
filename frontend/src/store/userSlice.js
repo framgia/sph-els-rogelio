@@ -17,8 +17,18 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "User", id: "LIST" }],
     }),
+    changePassword: builder.mutation({
+      query: ({ data }) => ({
+        url: `/user/change/password`,
+        method: "PUT",
+        data: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetUserQuery, useChangeGeneralInfoMutation } =
-  extendedApiSlice;
+export const {
+  useGetUserQuery,
+  useChangeGeneralInfoMutation,
+  useChangePasswordMutation,
+} = extendedApiSlice;
