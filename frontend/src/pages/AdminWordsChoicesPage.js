@@ -1,6 +1,6 @@
 import React from "react";
 import DataTable from "react-data-table-component";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetWordsChoicesQuery } from "../store/wordsChoicesSlice";
 import withAdminProtection from "../utilities/withAdminProtection";
 import Button from "./components/button/Button";
@@ -10,6 +10,7 @@ import PageLayout from "./components/layout/PageLayout";
 import DataLoading from "./components/loading/DataLoading";
 
 const AdminWordsChoicesPage = () => {
+  const navigate = useNavigate();
   const { lessonID } = useParams();
   const {
     data: lesson,
@@ -57,6 +58,9 @@ const AdminWordsChoicesPage = () => {
           <Button
             className="btn btn-warning btn-sm"
             label="Edit"
+            handleClick={() =>
+              navigate(`/lessons/${lessonID}/words/${row.id}/update`)
+            }
             isValid={true}
           />
           <Button

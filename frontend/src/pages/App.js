@@ -9,6 +9,7 @@ import AdminCreateLessonPage from "./AdminCreateLessonPage";
 import AdminUpdateLessonPage from "./AdminUpdateLessonPage";
 import AdminWordsChoicesPage from "./AdminWordsChoicesPage";
 import AdminCreateWordsChoicesPage from "./AdminCreateWordsChoicesPage";
+import AdminUpdateWordsChoicesPage from "./AdminUpdateWordsChoicesPage";
 
 function App() {
   return (
@@ -31,6 +32,10 @@ function App() {
           <Route
             path="/lessons/:lessonID/words/create"
             element={<AdminCreateWordsChoicesPage />}
+          />
+          <Route
+            path="/lessons/:lessonID/words/:wordID/update"
+            element={<AdminUpdateWordsChoicesPage />}
           />
         </Route>
       </Routes>
