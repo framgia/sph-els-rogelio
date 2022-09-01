@@ -4,7 +4,10 @@ import Row from "react-bootstrap/Row";
 import { useParams } from "react-router-dom";
 import { useGetUserProfileQuery } from "../store/profileSlice";
 import { countLearnedWords } from "../utilities/countLearnedWords";
+import { dummyUserActivities } from "../utilities/dummyData";
 import useAuth from "../utilities/useAuth";
+import FollowActivity from "./components/activity/FollowActivity";
+import LessonActivity from "./components/activity/LessonActivity";
 import Button from "./components/button/Button";
 import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";
@@ -103,86 +106,28 @@ const UserProfilePage = () => {
             }}
           >
             <h5 className="mb-3">Activities</h5>
-            <div className="d-flex align-items-center w-100 border rounded p-3 my-2">
-              <img
-                src={"https://picsum.photos/200/300"}
-                width="50"
-                alt="user-profile"
-                height="50"
-                style={{ objectFit: "cover" }}
-                className="rounded-circle me-3 border border-3 border-success"
-              />
-              <div>
-                <span className="d-block small">
-                  You learned 20 of 20 words in Basic 500
-                </span>
-                <span className="small text-muted">1 day ago</span>
-              </div>
-            </div>
-            <div className="d-flex align-items-center w-100 border rounded p-3 my-2">
-              <img
-                src={"https://picsum.photos/200/300"}
-                width="50"
-                alt="user-profile"
-                height="50"
-                style={{ objectFit: "cover" }}
-                className="rounded-circle me-3 border border-3 border-success"
-              />
-              <div>
-                <span className="d-block small">
-                  You followed Anne Hathaway
-                </span>
-                <span className="small text-muted">1 day ago</span>
-              </div>
-            </div>
-            <div className="d-flex align-items-center w-100 border rounded p-3 my-2">
-              <img
-                src={"https://picsum.photos/200/300"}
-                width="50"
-                alt="user-profile"
-                height="50"
-                style={{ objectFit: "cover" }}
-                className="rounded-circle me-3 border border-3 border-success"
-              />
-              <div>
-                <span className="d-block small">
-                  You followed Natalie Portman
-                </span>
-                <span className="small text-muted">1 day ago</span>
-              </div>
-            </div>
-            <div className="d-flex align-items-center w-100 border rounded p-3 my-2">
-              <img
-                src={"https://picsum.photos/200/300"}
-                width="50"
-                alt="user-profile"
-                height="50"
-                style={{ objectFit: "cover" }}
-                className="rounded-circle me-3 border border-3 border-success"
-              />
-              <div>
-                <span className="d-block small">
-                  You learned 20 of 20 words in Basic 500
-                </span>
-                <span className="small text-muted">1 day ago</span>
-              </div>
-            </div>
-            <div className="d-flex align-items-center w-100 border rounded p-3 my-2">
-              <img
-                src={"https://picsum.photos/200/300"}
-                width="50"
-                alt="user-profile"
-                height="50"
-                style={{ objectFit: "cover" }}
-                className="rounded-circle me-3 border border-3 border-success"
-              />
-              <div>
-                <span className="d-block small">
-                  You learned 20 of 20 words in Basic 500
-                </span>
-                <span className="small text-muted">1 day ago</span>
-              </div>
-            </div>
+            {dummyUserActivities.map((activity) => {
+              return (
+                <div key={activity.id}>
+                  {activity.type === "follow" ? (
+                    <FollowActivity
+                      follower={activity.activitable.follower}
+                      following={activity.activitable.following}
+                      created_at={activity.created_at}
+                      user_id={user.id}
+                    />
+                  ) : (
+                    <LessonActivity
+                      lesson={activity.activitable}
+                      learned_words={activity.activitable.learned_words}
+                      user={activity.activitable.user}
+                      created_at={activity.created_at}
+                      user_id={user.id}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </Col>
       </Row>
