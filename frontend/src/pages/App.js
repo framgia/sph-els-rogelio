@@ -13,6 +13,7 @@ import AdminUpdateWordsChoicesPage from "./AdminUpdateWordsChoicesPage";
 import UserLessonsPage from "./UserLessonsPage";
 import UserLessonQuizPage from "./UserLessonQuizPage";
 import UserLessonQuizResultPage from "./UserLessonQuizResultPage";
+import UserProfilePage from "./UserProfilePage";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
             path="/user/lessons/:lessonID/result"
             element={<UserLessonQuizResultPage />}
           />
+          <Route path="/profile" element={<UserProfilePage />} />
         </Route>
       </Routes>
     </div>
