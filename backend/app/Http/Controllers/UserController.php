@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File; 
 
 class UserController extends Controller
 {
@@ -52,5 +53,27 @@ class UserController extends Controller
         }else{
           return response()->json(['status' => false, 'data'=>null, 'message' => 'Invalid current password', 'errors' => 'Current password error'], 500);
         }
+    }
+    public function changeAvatar(Request $request)
+    {
+        if($request->user()->avatar!='default_profile_avatar.jpg'){
+          if(File::exists("images/".$request->user()->avatar)){
+            File::delete("images/".$request->user()->avatar);
+          }
+        }
+        $filename = time().rand(100,999).'.'.$request->file('image')->getClientOriginalExtension();
+        $request->file('image')->move('images/', $filename);
+        $user=User::where('id',$request->user()->id)->update([
+            'avatar'=>$filename
+        ]);
+        if(!$user){
+          return response()->json(['status' => false, 'data'=>null, 'message' => 'Cannot update user vatar.', 'errors' => 'Update Error'], 500);
+        }
+        return response()->json([
+            'status' => true,
+            'data'=>$user, 
+            'message' => 'User avatar successfully updated.', 
+            'errors' => null
+        ],200);
     }
 }

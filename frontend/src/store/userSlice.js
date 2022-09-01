@@ -24,6 +24,14 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         data: data,
       }),
     }),
+    changeAvatar: builder.mutation({
+      query: ({ data }) => ({
+        url: `/user/change/avatar`,
+        method: "POST",
+        data: data,
+      }),
+      invalidatesTags: [{ type: "User", id: "LIST" }],
+    }),
   }),
 });
 
@@ -31,4 +39,5 @@ export const {
   useGetUserQuery,
   useChangeGeneralInfoMutation,
   useChangePasswordMutation,
+  useChangeAvatarMutation,
 } = extendedApiSlice;

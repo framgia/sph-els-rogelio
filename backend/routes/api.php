@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('user',[UserController::class, 'user']);
   Route::put('/user/change/general-info',[UserController::class, 'changeGeneralInfo']);
   Route::put('/user/change/password',[UserController::class, 'changePassword']);
+  Route::post('/user/change/avatar',[UserController::class, 'changeAvatar']);
   Route::resource('dashboard',DashboardController::class);
   Route::resource('profile',ProfileController::class);
   Route::post('/follow/{id}',[FollowerController::class, 'follow']);
