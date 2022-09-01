@@ -7,11 +7,23 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/user/lessons?filter=${query}`,
         method: "GET",
       }),
-      providesTags: (result, error, arg) => [
-        { type: "UserLesson", id: "LIST" },
-      ],
+      providesTags: (result, error, arg) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "UserLesson", id })),
+              { type: "UserLesson", id: "LIST" },
+            ]
+          : [{ type: "UserLesson", id: "LIST" }],
+    }),
+    getUserLesson: builder.query({
+      query: ({ id }) => ({
+        url: `/user/lessons/${id}/take`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "UserLesson", id }],
     }),
   }),
 });
 
-export const { useGetUserLessonsQuery } = extendedApiSlice;
+export const { useGetUserLessonsQuery, useGetUserLessonQuery } =
+  extendedApiSlice;

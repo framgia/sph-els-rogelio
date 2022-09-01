@@ -26,6 +26,7 @@ Route::post('logout',[LogoutController::class, 'logout']);
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('user',[UserController::class, 'user']);
   Route::get('/user/lessons',[UserLessonController::class, 'index']);
+  Route::get('/user/lessons/{lessonID}/take',[UserLessonController::class, 'show']);
 });
 Route::middleware(['auth:sanctum','admin'])->group(function () {
   Route::resource('lessons',LessonController::class);
