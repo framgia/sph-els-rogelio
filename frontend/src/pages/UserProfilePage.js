@@ -40,7 +40,6 @@ const UserProfilePage = () => {
       await followUser({ id: userID }).unwrap();
       refetch();
     } catch (error) {
-      console.log(error);
       if (error && error.status === 500) {
         toast.error(error.message);
       } else {

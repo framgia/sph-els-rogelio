@@ -68,6 +68,11 @@ const PageLayout = ({ pageTitle, children }) => {
                         Lessons
                       </Link>
                     </li>
+                    <li className="nav-item">
+                      <Link className="nav-link active" replace to="/users">
+                        Users List
+                      </Link>
+                    </li>
                   </>
                 )}
                 <li className="nav-item">

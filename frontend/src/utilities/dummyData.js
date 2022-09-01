@@ -304,3 +304,30 @@ export const dummyUserActivities = [
     created_at: "2022-09-02 05:17:54",
   },
 ];
+
+export const dummyUsersList = [
+  {
+    id: 1,
+    name: "Tony Stark",
+    avatar: "https://picsum.photos/200/300",
+    email: "tonystark@example.com",
+    created_at: "2022-09-02 05:16:54",
+    followers: [],
+  },
+  {
+    id: 2,
+    name: "Thor Odinson",
+    avatar: "https://picsum.photos/200/300",
+    email: "thorodinson@example.com",
+    created_at: "2022-09-02 05:16:54",
+    followers: [],
+  },
+  {
+    id: 3,
+    name: "Natasha Romanov",
+    avatar: "https://picsum.photos/200/300",
+    email: "natasharomanov@example.com",
+    created_at: "2022-09-02 05:16:54",
+    followers: [],
+  },
+];

@@ -16,6 +16,7 @@ import UserLessonQuizResultPage from "./UserLessonQuizResultPage";
 import UserProfilePage from "./UserProfilePage";
 import MatchLearningsRoute from "./components/routes/MatchLearningsRoute";
 import UserProfileSettingsPage from "./UserProfileSettingsPage";
+import UserListPage from "./UserListPage";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           />
           <Route path="/profile/:userID" element={<UserProfilePage />} />
           <Route path="/learned/:type" element={<MatchLearningsRoute />} />
+          <Route path="/users" element={<UserListPage />} />
         </Route>
       </Routes>
     </div>
