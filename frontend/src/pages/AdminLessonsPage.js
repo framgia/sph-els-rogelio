@@ -4,9 +4,13 @@ import PageLayout from "./components/layout/PageLayout";
 import DataTable from "react-data-table-component";
 import Button from "./components/button/Button";
 import { customStyles } from "./components/datatable/datatable";
-import { dummyLessons } from "../utilities/dummyData";
+import { useGetLessonsQuery } from "../store/lessonsSlice";
+import DataLoading from "./components/loading/DataLoading";
+import UnauthorizedErrorPage from "./components/error/UnauthorizedErrorPage";
+import { Link } from "react-router-dom";
 
 const AdminLessonsPage = () => {
+  const { data: lessons, isLoading, isError, isSuccess } = useGetLessonsQuery();
   const columns = [
     {
       name: "Title",
@@ -44,16 +48,32 @@ const AdminLessonsPage = () => {
       ),
     },
   ];
-
-  return (
-    <PageLayout pageTitle={"Admin Dashboard"}>
+  let output;
+  if (isLoading) {
+    output = <DataLoading />;
+  }
+  if (isError) {
+    output = <UnauthorizedErrorPage />;
+  }
+  if (isSuccess) {
+    output = (
       <DataTable
-        title="Lessons/Categories"
         columns={columns}
-        data={dummyLessons}
+        data={lessons}
         customStyles={customStyles}
         pagination
       />
+    );
+  }
+  return (
+    <PageLayout pageTitle={"Admin Dashboard"}>
+      <div className="d-flex my-3 align-items-center">
+        <h1 className="mx-4">Lessons/Categories</h1>
+        <Link className="btn btn-success my-auto" replace to="/lessons/create">
+          Create New Lesson
+        </Link>
+      </div>
+      {output}
     </PageLayout>
   );
 };
