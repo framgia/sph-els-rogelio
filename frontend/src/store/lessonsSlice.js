@@ -38,6 +38,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Lesson", id: arg.id }],
     }),
+    deleteLesson: builder.mutation({
+      query: (id) => ({
+        url: `/lessons/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Lesson", id: arg.id }],
+    }),
   }),
 });
 
@@ -46,4 +53,5 @@ export const {
   useGetLessonQuery,
   useCreateLessonMutation,
   useUpdateLessonMutation,
+  useDeleteLessonMutation,
 } = extendedApiSlice;

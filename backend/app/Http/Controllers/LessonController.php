@@ -51,4 +51,17 @@ class LessonController extends Controller
         ],200);
     }
 
+    public function destroy(Lesson $lesson)
+    {
+        $lessonDelete=$lesson->delete();
+        if(!$lessonDelete){
+            return response()->json(['status' => false, 'data'=>null, 'message' => 'Cannot delete lesson.', 'errors' => 'Delete Error'], 500);
+        }
+        return response()->json([
+            'status' => true,
+            'data'=>$lessonDelete, 
+            'message' => 'Lesson successfully deleted.', 
+            'errors' => null
+        ],200);
+    }
 }
