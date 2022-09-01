@@ -108,6 +108,7 @@ const Auth = ({ children }) => {
         user,
         authenticated,
         isLoading,
+        revalidate,
         setCurrentUser,
         signIn,
         signOut,

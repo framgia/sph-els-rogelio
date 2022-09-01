@@ -1,10 +1,25 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
+import { toast } from "react-toastify";
+import { useChangeGeneralInfoMutation } from "../../../store/userSlice";
 import { generalInfoValidationSchema } from "../../../utilities/validation";
 import Button from "../button/Button";
 
-const GeneralInfoSection = ({ name, email }) => {
-  const handleFormSubmit = async () => {};
+const GeneralInfoSection = ({ name, email, revalidate }) => {
+  const [changeGeneralInfo, { isLoading }] = useChangeGeneralInfoMutation();
+  const handleFormSubmit = async () => {
+    try {
+      const res = await changeGeneralInfo({ data: values }).unwrap();
+      toast.success(res.message);
+      revalidate();
+    } catch (error) {
+      if (error && error.status === 500) {
+        toast.error(error.message);
+      } else {
+        toast.error(error);
+      }
+    }
+  };
   const {
     handleChange,
     handleSubmit,
@@ -69,6 +84,7 @@ const GeneralInfoSection = ({ name, email }) => {
           <Button
             label={"Save"}
             isValid={isValid}
+            isLoading={isLoading}
             className={"btn btn-primary"}
             handleClick={handleSubmit}
           />

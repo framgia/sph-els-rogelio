@@ -14,6 +14,7 @@ export const apiSlice = createApi({
     "Dashboard",
     "Profile",
     "Follow",
+    "User",
   ],
   endpoints: (builder) => ({}),
 });
