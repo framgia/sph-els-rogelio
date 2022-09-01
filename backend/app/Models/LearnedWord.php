@@ -10,7 +10,7 @@ class LearnedWord extends Model
     use HasFactory;
     protected $guarded=[];
     
-    public function word()
+    public function word_question()
     {
         return $this->belongsTo(WordQuestion::class);
     }

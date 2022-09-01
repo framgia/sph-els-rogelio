@@ -89,4 +89,19 @@ class UserLessonController extends Controller
             'errors' => null
         ],200);
     }
+    public function showResult(Request $request, $lessonID)
+    {
+        $finishedLesson=FinishedLesson::where([
+          ['user_id','=',Auth::user()->id],
+          ['lesson_id','=',$lessonID]
+        ])->with('lesson','learned_words.word_question.choices','learned_words.choice')->first();
+        $is_taken=FinishedLesson::where([
+          ['user_id','=',Auth::user()->id],
+          ['lesson_id','=',$lessonID]
+        ])->exists();
+        return [
+          'lesson'=>$finishedLesson,
+          'is_taken'=>$is_taken
+        ];
+    }
 }

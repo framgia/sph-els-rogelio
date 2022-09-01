@@ -1,17 +1,22 @@
 import React from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
-import { dummyWordsChoicesResult } from "../utilities/dummyData";
+import { Link, useParams } from "react-router-dom";
+import { useShowResultQuery } from "../store/userLessonsSlice";
 import withUserProtection from "../utilities/withUserProtection";
 import { customStyles } from "./components/datatable/datatable";
+import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";
+import DataLoading from "./components/loading/DataLoading";
 
 const UserLessonQuizResultPage = () => {
-  const filteredCorrect = dummyWordsChoicesResult.learned_words.filter(
-    (words) => {
-      return words.choice.is_correct === true;
-    }
-  );
+  const { lessonID } = useParams();
+  const {
+    data: result,
+    isLoading,
+    isError,
+    isSuccess,
+    isFetching,
+  } = useShowResultQuery({ id: lessonID }, { refetchOnMountOrArgChange: true });
   const columns = [
     {
       name: "Status",
@@ -33,8 +38,8 @@ const UserLessonQuizResultPage = () => {
     {
       name: "Correct Answer/s",
       cell: (row) => {
-        let filtered = row.word_question.choices.filter((choice) => {
-          return choice.is_correct === true;
+        let filtered = row.word_question?.choices?.filter((choice) => {
+          return choice.is_correct;
         });
         return filtered.map((choice) => {
           return <div key={choice.id}>{choice.choice}</div>;
@@ -46,6 +51,61 @@ const UserLessonQuizResultPage = () => {
       selector: (row) => row.choice.choice,
     },
   ];
+  let output;
+  if (isLoading || isFetching) {
+    output = <DataLoading />;
+  }
+  if (isError) {
+    output = (
+      <ErrorPage
+        errorStatus={401}
+        errorType={"Unauthorized Access"}
+        errorMessage={"You are not authorized to access this page."}
+      />
+    );
+  }
+  if (isSuccess && !isFetching) {
+    let filteredCorrect = result?.lesson?.learned_words.filter((words) => {
+      return words.choice.is_correct;
+    });
+    output = result.is_taken ? (
+      <>
+        <div className="mb-3">
+          <div className="d-flex">
+            <h4>Lesson Details</h4>
+            <h5 className="ms-auto">
+              You learned {filteredCorrect.length} of{" "}
+              {result.lesson.learned_words.length} new words{" "}
+            </h5>
+          </div>
+          <h6>
+            Title:{" "}
+            <span className="text-muted">{result.lesson.lesson.title}</span>{" "}
+          </h6>
+          <h6>
+            Description:{" "}
+            <span className="text-muted">
+              {result.lesson.lesson.description}
+            </span>{" "}
+          </h6>
+        </div>
+        <DataTable
+          columns={columns}
+          data={result.lesson.learned_words}
+          customStyles={customStyles}
+          pagination
+        />
+      </>
+    ) : (
+      <ErrorPage
+        errorStatus={404}
+        errorType={"Result Not Found"}
+        errorMessage={
+          "Lesson may not be taken yet. Please take the lesson first."
+        }
+      />
+    );
+  }
   return (
     <PageLayout pageTitle={"Lesson Quiz Result"}>
       <div className="d-flex mt-3 align-items-center">
@@ -53,31 +113,9 @@ const UserLessonQuizResultPage = () => {
         <Link className="btn btn-success my-auto" replace to={`/user/lessons`}>
           Back
         </Link>
-        <h5 className="ms-auto">
-          You learned {filteredCorrect.length} of{" "}
-          {dummyWordsChoicesResult.learned_words.length} new words{" "}
-        </h5>
       </div>
       <hr />
-      <div className="mb-3">
-        <h4>Lesson Details</h4>
-        <h6>
-          Title:{" "}
-          <span className="text-muted">{dummyWordsChoicesResult.title}</span>{" "}
-        </h6>
-        <h6>
-          Description:{" "}
-          <span className="text-muted">
-            {dummyWordsChoicesResult.description}
-          </span>{" "}
-        </h6>
-      </div>
-      <DataTable
-        columns={columns}
-        data={dummyWordsChoicesResult.learned_words}
-        customStyles={customStyles}
-        pagination
-      />
+      {output}
     </PageLayout>
   );
 };
