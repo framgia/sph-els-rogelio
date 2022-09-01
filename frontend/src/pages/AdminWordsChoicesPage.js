@@ -106,7 +106,7 @@ const AdminWordsChoicesPage = () => {
         <Link
           className="btn btn-success my-auto"
           replace
-          to="/lessons/:id/words/create"
+          to={`/lessons/${lessonID}/words/create`}
         >
           Add Word
         </Link>
