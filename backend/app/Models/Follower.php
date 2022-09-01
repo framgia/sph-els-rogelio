@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Follower extends Model
 {
+    protected $guarded=[];
     protected $with=['follower','following'];
     public function follower()
     {
