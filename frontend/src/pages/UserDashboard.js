@@ -3,12 +3,15 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
 import { useGetUserDashboardQuery } from "../store/dashboardSlice";
+import { countLearnedWords } from "../utilities/countLearnedWords";
+import useAuth from "../utilities/useAuth";
 import withUserProtection from "../utilities/withUserProtection";
 import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";
 import DataLoading from "./components/loading/DataLoading";
 
 const UserDashboard = () => {
+  const { user } = useAuth();
   const {
     data: userDashboard,
     isLoading,
@@ -17,13 +20,6 @@ const UserDashboard = () => {
     isFetching,
   } = useGetUserDashboardQuery({}, { refetchOnMountOrArgChange: true });
 
-  const countLearnedWords = (lessons) => {
-    let count = 0;
-    lessons.forEach((lesson) => {
-      count += lesson.learned_words.length;
-    });
-    return count;
-  };
   let output;
   if (isLoading || isFetching) {
     output = <DataLoading />;
@@ -70,7 +66,7 @@ const UserDashboard = () => {
               </div>
               <Link
                 replace
-                to={`/profile`}
+                to={`/profile/${user.id}`}
                 className="btn btn-outline-success btn-sm btn-block w-100 mt-2"
               >
                 View Profile

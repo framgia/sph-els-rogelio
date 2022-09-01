@@ -50,7 +50,7 @@ function App() {
             path="/user/lessons/:lessonID/result"
             element={<UserLessonQuizResultPage />}
           />
-          <Route path="/profile" element={<UserProfilePage />} />
+          <Route path="/profile/:userID" element={<UserProfilePage />} />
         </Route>
       </Routes>
     </div>
