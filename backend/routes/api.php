@@ -8,6 +8,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\WordChoiceController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,5 @@ Route::middleware(['auth:sanctum','admin'])->group(function () {
   Route::get('/lessons/{lessonID}/words/{wordID}',[WordChoiceController::class, 'show']);
   Route::put('/lessons/{lessonID}/words/{wordID}',[WordChoiceController::class, 'update']);
   Route::delete('/lessons/{lessonID}/words/{wordID}',[WordChoiceController::class, 'destroy']);
+  Route::resource('admins',AdminController::class);
 });
