@@ -7,9 +7,13 @@ import withUserProtection from "../utilities/withUserProtection";
 import PageLayout from "./components/layout/PageLayout";
 import Button from "./components/button/Button";
 import { lessonQuizValidationSchema } from "../utilities/validation";
-import { useGetUserLessonQuery } from "../store/userLessonsSlice";
+import {
+  useGetUserLessonQuery,
+  useValidateUserLessonMutation,
+} from "../store/userLessonsSlice";
 import DataLoading from "./components/loading/DataLoading";
 import ErrorPage from "./components/error/ErrorPage";
+import { toast } from "react-toastify";
 
 const UserLessonQuizPage = () => {
   const { lessonID } = useParams();
@@ -19,8 +23,22 @@ const UserLessonQuizPage = () => {
     isError,
     isSuccess,
   } = useGetUserLessonQuery({ id: lessonID });
+  const [validateUserLesson, { isLoading: isValidating }] =
+    useValidateUserLessonMutation();
   const handleFormSubmit = async () => {
-    console.log(values.words);
+    try {
+      const res = await validateUserLesson({
+        data: values,
+        id: lessonID,
+      }).unwrap();
+      toast.success(res.message);
+    } catch (error) {
+      if (error && error.status === 500) {
+        toast.error(error.message);
+      } else {
+        toast.error(error);
+      }
+    }
   };
   const [index, setIndex] = useState(0);
   const { handleSubmit, setValues, values, errors, isValid } = useFormik({
@@ -70,7 +88,7 @@ const UserLessonQuizPage = () => {
     );
   }
   if (isSuccess) {
-    output = (
+    output = !userLesson.is_taken ? (
       <>
         <div className="mb-3">
           <h5>Lesson Details</h5>
@@ -109,6 +127,7 @@ const UserLessonQuizPage = () => {
                 <Button
                   className={"mt-3 btn btn-lg w-100 btn-success text-center"}
                   isValid={isValid}
+                  isLoading={isValidating}
                   handleClick={handleSubmit}
                   label={"Submit"}
                 />
@@ -158,6 +177,12 @@ const UserLessonQuizPage = () => {
           </Col>
         </Row>
       </>
+    ) : (
+      <ErrorPage
+        errorStatus={404}
+        errorType={"Lesson Not Found"}
+        errorMessage={"Lesson may not exist or you already took the lesson."}
+      />
     );
   }
   return (
