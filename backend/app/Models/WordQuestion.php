@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WordQuestion extends Model
 {
+    protected $guarded=[];
     use HasFactory, SoftDeletes;
 
     public function lesson()

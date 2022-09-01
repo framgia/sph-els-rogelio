@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Choice extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $guarded=[];
     public function word()
     {
         return $this->belongsTo(WordQuestion::class);
