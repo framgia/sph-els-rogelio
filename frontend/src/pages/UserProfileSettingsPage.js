@@ -7,6 +7,7 @@ import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";
 import DataLoading from "./components/loading/DataLoading";
 import GeneralInfoSection from "./components/settings/GeneralInfoSection";
+import PasswordSection from "./components/settings/PasswordSection";
 
 const UserProfileSettingsPage = () => {
   const { revalidate } = useAuth();
@@ -48,7 +49,7 @@ const UserProfileSettingsPage = () => {
           </div>
 
           <div className="card p-3">
-            <h5 className="mb-3">Change password</h5>
+            <PasswordSection />
           </div>
         </Col>
       </Row>

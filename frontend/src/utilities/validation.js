@@ -92,3 +92,15 @@ export const generalInfoValidationSchema = yup.object().shape({
     .email("Email must be valid")
     .required("Email is required"),
 });
+
+export const passwordValidationSchema = yup.object().shape({
+  password: yup.string().required("Current password is required"),
+  newPassword: yup
+    .string()
+    .min(8, ({ min }) => `New password must be at least ${min} characters`)
+    .required("New password is required"),
+  repeatNewPassword: yup
+    .string()
+    .oneOf([yup.ref("newPassword")], "New passwords must match")
+    .required("New password must be repeated"),
+});
