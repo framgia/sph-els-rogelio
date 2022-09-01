@@ -11,4 +11,8 @@ class UsersListController extends Controller
     {
       return User::where('is_admin',false)->orderBy('name','ASC')->with('followers')->get();
     }
+    public function admins()
+    {
+      return User::where('is_admin',true)->orderBy('name','ASC')->with('followers')->get();
+    }
 }

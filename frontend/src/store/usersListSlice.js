@@ -9,7 +9,15 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: (result, error, id) => [{ type: "UsersList", id: "LIST" }],
     }),
+    getAdminUsersList: builder.query({
+      query: () => ({
+        url: `/admins`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "UsersList", id: "LIST" }],
+    }),
   }),
 });
 
-export const { useGetUsersListQuery } = extendedApiSlice;
+export const { useGetUsersListQuery, useGetAdminUsersListQuery } =
+  extendedApiSlice;
