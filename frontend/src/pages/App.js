@@ -17,6 +17,7 @@ import UserProfilePage from "./UserProfilePage";
 import MatchLearningsRoute from "./components/routes/MatchLearningsRoute";
 import UserProfileSettingsPage from "./UserProfileSettingsPage";
 import UserListPage from "./UserListPage";
+import AdminUserListPage from "./AdminUserListPage";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
           <Route path="/profile/:userID" element={<UserProfilePage />} />
           <Route path="/learned/:type" element={<MatchLearningsRoute />} />
           <Route path="/users" element={<UserListPage />} />
+          <Route path="/admins" element={<AdminUserListPage />} />
         </Route>
       </Routes>
     </div>
