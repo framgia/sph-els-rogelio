@@ -29,4 +29,6 @@ Route::middleware(['auth:sanctum','admin'])->group(function () {
   Route::resource('lessons',LessonController::class);
   Route::get('/lessons/{id}/words',[WordChoiceController::class, 'index']);
   Route::post('/lessons/{id}/words',[WordChoiceController::class, 'store']);
+  Route::get('/lessons/{lessonID}/words/{wordID}',[WordChoiceController::class, 'show']);
+  Route::put('/lessons/{lessonID}/words/{wordID}',[WordChoiceController::class, 'update']);
 });
