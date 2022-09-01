@@ -104,3 +104,7 @@ export const passwordValidationSchema = yup.object().shape({
     .oneOf([yup.ref("newPassword")], "New passwords must match")
     .required("New password must be repeated"),
 });
+
+export const avatarValidationSchema = yup.object().shape({
+  avatar: yup.string().required("Choose an image"),
+});
