@@ -1,7 +1,7 @@
 export const customStyles = {
-	cells: {
-		style: {
-			padding: "10px",
-		},
-	},
+  cells: {
+    style: {
+      padding: "10px",
+    },
+  },
 };
