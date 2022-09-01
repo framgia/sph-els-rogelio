@@ -10,6 +10,7 @@ import AdminUpdateLessonPage from "./AdminUpdateLessonPage";
 import AdminWordsChoicesPage from "./AdminWordsChoicesPage";
 import AdminCreateWordsChoicesPage from "./AdminCreateWordsChoicesPage";
 import AdminUpdateWordsChoicesPage from "./AdminUpdateWordsChoicesPage";
+import AdminUsersListPage from "./AdminUsersListPage";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             path="/lessons/:lessonID/words/:wordID/update"
             element={<AdminUpdateWordsChoicesPage />}
           />
+          <Route path="/admin/list" element={<AdminUsersListPage />} />
         </Route>
       </Routes>
     </div>
