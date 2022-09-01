@@ -9,23 +9,23 @@ import AdminCreateLessonPage from "./AdminCreateLessonPage";
 import AdminUpdateLessonPage from "./AdminUpdateLessonPage";
 
 function App() {
-	return (
-		<div className="App">
-			<Routes>
-				<Route path="/" element={<LoginPage />} />
-				<Route path="/register" element={<RegistrationPage />} />
-				<Route element={<ProtectedRoutes />}>
-					<Route path="/admin/dashboard" element={<AdminLessonsPage />} />
-					<Route path="/dashboard" element={<UserDashboard />} />
-					<Route path="/lessons/create" element={<AdminCreateLessonPage />} />
-					<Route
-						path="/lessons/update/:id"
-						element={<AdminUpdateLessonPage />}
-					/>
-				</Route>
-			</Routes>
-		</div>
-	);
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/admin/dashboard" element={<AdminLessonsPage />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/lessons/create" element={<AdminCreateLessonPage />} />
+          <Route
+            path="/lessons/update/:id"
+            element={<AdminUpdateLessonPage />}
+          />
+        </Route>
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
