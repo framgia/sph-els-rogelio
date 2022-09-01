@@ -36,6 +36,15 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         { type: "WordChoice", id: arg.id },
       ],
     }),
+    deleteWordChoice: builder.mutation({
+      query: ({ lessonID, wordID }) => ({
+        url: `/lessons/${lessonID}/words/${wordID}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "WordChoice", id: arg.id },
+      ],
+    }),
   }),
 });
 
@@ -44,4 +53,5 @@ export const {
   useGetWordChoiceQuery,
   useCreateWordChoiceMutation,
   useUpdateWordChoiceMutation,
+  useDeleteWordChoiceMutation,
 } = extendedApiSlice;

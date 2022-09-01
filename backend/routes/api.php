@@ -31,4 +31,5 @@ Route::middleware(['auth:sanctum','admin'])->group(function () {
   Route::post('/lessons/{id}/words',[WordChoiceController::class, 'store']);
   Route::get('/lessons/{lessonID}/words/{wordID}',[WordChoiceController::class, 'show']);
   Route::put('/lessons/{lessonID}/words/{wordID}',[WordChoiceController::class, 'update']);
+  Route::delete('/lessons/{lessonID}/words/{wordID}',[WordChoiceController::class, 'destroy']);
 });
