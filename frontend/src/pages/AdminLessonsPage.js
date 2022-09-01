@@ -7,10 +7,11 @@ import { customStyles } from "./components/datatable/datatable";
 import { useGetLessonsQuery } from "../store/lessonsSlice";
 import DataLoading from "./components/loading/DataLoading";
 import UnauthorizedErrorPage from "./components/error/UnauthorizedErrorPage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminLessonsPage = () => {
   const { data: lessons, isLoading, isError, isSuccess } = useGetLessonsQuery();
+  const navigate = useNavigate();
   const columns = [
     {
       name: "Title",
@@ -37,6 +38,7 @@ const AdminLessonsPage = () => {
           <Button
             className="btn btn-warning btn-sm"
             label="Edit"
+            handleClick={() => navigate(`/lessons/update/${row.id}`)}
             isValid={true}
           />
           <Button

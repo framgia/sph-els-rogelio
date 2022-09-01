@@ -6,6 +6,7 @@ import LoginPage from "./LoginPage";
 import RegistrationPage from "./RegistrationPage";
 import UserDashboard from "./UserDashboard";
 import AdminCreateLessonPage from "./AdminCreateLessonPage";
+import AdminUpdateLessonPage from "./AdminUpdateLessonPage";
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminLessonsPage />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/lessons/create" element={<AdminCreateLessonPage />} />
+          <Route
+            path="/lessons/update/:id"
+            element={<AdminUpdateLessonPage />}
+          />
         </Route>
       </Routes>
     </div>
