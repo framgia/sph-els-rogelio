@@ -75,7 +75,7 @@ const PageLayout = ({ pageTitle, children }) => {
                 {authenticated && (
                   <div className="d-flex">
                     <img
-                      src="https://picsum.photos/200/300"
+                      src={`${process.env.REACT_APP_IMAGES_URL}/${user.avatar}`}
                       width="45"
                       alt="user-profile"
                       height="45"

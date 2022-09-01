@@ -8,7 +8,9 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\WordChoiceController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserLessonController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,7 @@ Route::post('login',[LoginController::class, 'login']);
 Route::post('logout',[LogoutController::class, 'logout']);
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('user',[UserController::class, 'user']);
+  Route::resource('dashboard',DashboardController::class);
   Route::get('/user/lessons',[UserLessonController::class, 'index']);
   Route::get('/user/lessons/{lessonID}/take',[UserLessonController::class, 'show']);
   Route::post('/user/lessons/{lessonID}/validate',[UserLessonController::class, 'validateAnswers']);
