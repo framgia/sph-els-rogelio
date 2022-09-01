@@ -80,3 +80,15 @@ export const lessonQuizValidationSchema = yup.object().shape({
     })
   ),
 });
+
+export const generalInfoValidationSchema = yup.object().shape({
+  name: yup
+    .string()
+    .matches(/^[A-Za-z ]*$/, "Please enter valid name")
+    .max(40)
+    .required("Name is required"),
+  email: yup
+    .string()
+    .email("Email must be valid")
+    .required("Email is required"),
+});
