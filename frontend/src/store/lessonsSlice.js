@@ -9,10 +9,21 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: (result, error, arg) =>
         result
-          ? [...result.map(({ id }) => ({ type: "Lesson", id })), "Lesson"]
-          : ["Lesson"],
+          ? [
+              ...result.map(({ id }) => ({ type: "Lesson", id })),
+              { type: "Lesson", id: "LIST" },
+            ]
+          : [{ type: "Lesson", id: "LIST" }],
+    }),
+    createLesson: builder.mutation({
+      query: (data) => ({
+        url: "/lessons",
+        method: "POST",
+        data: data,
+      }),
+      invalidatesTags: [{ type: "Lesson", id: "LIST" }],
     }),
   }),
 });
 
-export const { useGetLessonsQuery } = extendedApiSlice;
+export const { useGetLessonsQuery, useCreateLessonMutation } = extendedApiSlice;
