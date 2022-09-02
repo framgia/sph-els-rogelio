@@ -6,6 +6,6 @@ export const apiSlice = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl: process.env.REACT_APP_BACKEND_URL_API,
   }),
-  tagTypes: ["Auth"],
+  tagTypes: ["Auth", "Lesson"],
   endpoints: (builder) => ({}),
 });
