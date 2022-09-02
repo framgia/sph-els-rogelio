@@ -7,6 +7,7 @@ import RegistrationPage from "./RegistrationPage";
 import UserDashboard from "./UserDashboard";
 import AdminCreateLessonPage from "./AdminCreateLessonPage";
 import AdminUpdateLessonPage from "./AdminUpdateLessonPage";
+import AdminWordsChoicesPage from "./AdminWordsChoicesPage";
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           <Route
             path="/lessons/update/:id"
             element={<AdminUpdateLessonPage />}
+          />
+          <Route
+            path="/lessons/:lessonID/words"
+            element={<AdminWordsChoicesPage />}
           />
         </Route>
       </Routes>
