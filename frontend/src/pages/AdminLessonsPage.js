@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import withAdminProtection from "../utilities/withAdminProtection";
 import PageLayout from "./components/layout/PageLayout";
 import DataTable from "react-data-table-component";
@@ -8,10 +8,20 @@ import { useGetLessonsQuery } from "../store/lessonsSlice";
 import DataLoading from "./components/loading/DataLoading";
 import ErrorPage from "./components/error/ErrorPage";
 import { Link, useNavigate } from "react-router-dom";
+import ConfirmationModal from "./components/modals/ConfirmationModal";
 
 const AdminLessonsPage = () => {
   const { data: lessons, isLoading, isError, isSuccess } = useGetLessonsQuery();
+  const [show, setShow] = useState(false);
+  const [rowID, setRowID] = useState(-1);
   const navigate = useNavigate();
+  const handleDeleteButton = (id) => {
+    setRowID(id);
+    setShow(true);
+  };
+  const handleDeleteModal = () => {
+    setShow(false);
+  };
   const columns = [
     {
       name: "Title",
@@ -45,6 +55,7 @@ const AdminLessonsPage = () => {
             className="btn btn-danger btn-sm"
             label="Delete"
             isValid={true}
+            handleClick={() => handleDeleteButton(row.id)}
           />
         </div>
       ),
@@ -65,12 +76,23 @@ const AdminLessonsPage = () => {
   }
   if (isSuccess) {
     output = (
-      <DataTable
-        columns={columns}
-        data={lessons}
-        customStyles={customStyles}
-        pagination
-      />
+      <>
+        <DataTable
+          columns={columns}
+          data={lessons}
+          customStyles={customStyles}
+          pagination
+        />
+        <ConfirmationModal
+          title={"Delete Lesson"}
+          body={"Are you sure to delete this lesson?"}
+          show={show}
+          setShow={setShow}
+          closeLabel={"Close"}
+          actionLabel={"Delete Lesson"}
+          handleModalClick={handleDeleteModal}
+        />
+      </>
     );
   }
   return (
