@@ -51,3 +51,20 @@ export const wordChoiceValidationSchema = yup.object().shape({
     .required("Choices for the words are required"),
   is_correct: yup.number().min(1, "Choose at least 1 correct answer"),
 });
+
+export const wordChoiceEditValidationSchema = yup.object().shape({
+  word: yup.string().required("Word is required"),
+  usage: yup.string().required("Input a sample usage of the word"),
+  choices: yup
+    .array()
+    .of(
+      yup.object().shape({
+        choice: yup.string().required("Choice is required"),
+        is_correct: yup.boolean(),
+        id: yup.number(),
+      })
+    )
+    .min(2, "Create at least 2 choices")
+    .required("Choices for the words are required"),
+  is_correct: yup.number().min(1, "Choose at least 1 correct answer"),
+});
