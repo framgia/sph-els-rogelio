@@ -6,9 +6,31 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "./components/button/Button";
 import withAdminProtection from "../utilities/withAdminProtection";
+import { useCreateWordChoiceMutation } from "../store/wordsChoicesSlice";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AdminCreateWordsChoicesPage = () => {
-  const handleFormSubmit = async () => {};
+  const { lessonID } = useParams();
+  const navigate = useNavigate();
+  const [createWordChoice, { isLoading }] = useCreateWordChoiceMutation();
+  const handleFormSubmit = async () => {
+    try {
+      const res = await createWordChoice({
+        data: values,
+        id: lessonID,
+      }).unwrap();
+      toast.success(res.message);
+      resetForm();
+      navigate(`/lessons/${lessonID}/words`);
+    } catch (error) {
+      if (error && error.status === 500) {
+        toast.error(error.message);
+      } else {
+        toast.error(error);
+      }
+    }
+  };
   const {
     handleChange,
     handleSubmit,
@@ -16,6 +38,7 @@ const AdminCreateWordsChoicesPage = () => {
     setFieldValue,
     setFieldError,
     setFieldTouched,
+    resetForm,
     values,
     errors,
     isValid,
@@ -49,8 +72,11 @@ const AdminCreateWordsChoicesPage = () => {
       setFieldTouched("choices", touchTemp);
     }
     let temp = [...values.choices];
+    let count = values.is_correct;
+    count -= temp[i].is_correct ? 1 : 0;
     temp.splice(i, 1);
     setFieldValue("choices", temp);
+    setFieldValue("is_correct", count);
   };
   const handleFieldChange = async (e, i) => {
     let temp = [...values.choices];
@@ -64,6 +90,13 @@ const AdminCreateWordsChoicesPage = () => {
     <PageLayout pageTitle={"Admin Words and Choices | Create Word"}>
       <div className="d-flex my-3 align-items-center">
         <h1 className="me-4">Words and Choices</h1>
+        <Link
+          className="btn btn-secondary my-auto"
+          replace
+          to={`/lessons/${lessonID}/words`}
+        >
+          Back
+        </Link>
       </div>
       <Row>
         <Col>
@@ -102,6 +135,7 @@ const AdminCreateWordsChoicesPage = () => {
           <Button
             className={"mt-3 btn btn-lg w-100 btn-primary text-center"}
             isValid={isValid}
+            isLoading={isLoading}
             handleClick={handleSubmit}
             label={"Add Word"}
           />
