@@ -76,4 +76,18 @@ class WordChoiceController extends Controller
             'errors' => null
         ],200);
     }
+    public function destroy($lessonID, $wordID)
+    {
+        Choice::where('word_question_id',$wordID)->delete();
+        $word=WordQuestion::where('id',$wordID)->delete();
+        if(!$word){
+            return response()->json(['status' => false, 'data'=>null, 'message' => 'Cannot delete word.', 'errors' => 'Delete Error'], 500);
+        }
+        return response()->json([
+            'status' => true,
+            'data'=>$word, 
+            'message' => 'Word and choices successfully deleted.', 
+            'errors' => null
+        ],200);
+    }
 }

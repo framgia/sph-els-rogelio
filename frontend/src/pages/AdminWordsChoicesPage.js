@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useGetWordsChoicesQuery } from "../store/wordsChoicesSlice";
+import { toast } from "react-toastify";
+import {
+  useDeleteWordChoiceMutation,
+  useGetWordsChoicesQuery,
+} from "../store/wordsChoicesSlice";
 import withAdminProtection from "../utilities/withAdminProtection";
 import Button from "./components/button/Button";
 import { customStyles } from "./components/datatable/datatable";
@@ -15,17 +19,31 @@ const AdminWordsChoicesPage = () => {
   const { lessonID } = useParams();
   const [show, setShow] = useState(false);
   const [rowID, setRowID] = useState(-1);
-  const handleDeleteButton = (id) => {
-    setRowID(id);
-    setShow(true);
-  };
-  const handleDeleteModal = async () => {};
+  const [deleteWordChoice, { isLoading: deleteWordLoading }] =
+    useDeleteWordChoiceMutation();
   const {
     data: lesson,
     isLoading,
     isError,
     isSuccess,
   } = useGetWordsChoicesQuery(lessonID);
+  const handleDeleteButton = (id) => {
+    setRowID(id);
+    setShow(true);
+  };
+  const handleDeleteModal = async () => {
+    try {
+      const res = await deleteWordChoice({ lessonID, wordID: rowID }).unwrap();
+      toast.success(res.message);
+      setShow(false);
+    } catch (error) {
+      if (error && error.status === 500) {
+        toast.error(error.message);
+      } else {
+        toast.error(error);
+      }
+    }
+  };
   const columns = [
     {
       name: "Word",
@@ -116,6 +134,7 @@ const AdminWordsChoicesPage = () => {
           setShow={setShow}
           closeLabel={"Close"}
           actionLabel={"Delete Word"}
+          isLoading={deleteWordLoading}
           handleModalClick={handleDeleteModal}
         />
       </>
