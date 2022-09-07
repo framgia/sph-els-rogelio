@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetWordsChoicesQuery } from "../store/wordsChoicesSlice";
@@ -8,10 +8,18 @@ import { customStyles } from "./components/datatable/datatable";
 import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";
 import DataLoading from "./components/loading/DataLoading";
+import ConfirmationModal from "./components/modals/ConfirmationModal";
 
 const AdminWordsChoicesPage = () => {
   const navigate = useNavigate();
   const { lessonID } = useParams();
+  const [show, setShow] = useState(false);
+  const [rowID, setRowID] = useState(-1);
+  const handleDeleteButton = (id) => {
+    setRowID(id);
+    setShow(true);
+  };
+  const handleDeleteModal = async () => {};
   const {
     data: lesson,
     isLoading,
@@ -67,6 +75,7 @@ const AdminWordsChoicesPage = () => {
             className="btn btn-danger btn-sm"
             label="Delete"
             isValid={true}
+            handleClick={() => handleDeleteButton(row.id)}
           />
         </div>
       ),
@@ -99,6 +108,15 @@ const AdminWordsChoicesPage = () => {
           data={lesson.words}
           customStyles={customStyles}
           pagination
+        />
+        <ConfirmationModal
+          title={"Delete Word"}
+          body={"Are you sure to delete this word and associated choices?"}
+          show={show}
+          setShow={setShow}
+          closeLabel={"Close"}
+          actionLabel={"Delete Word"}
+          handleModalClick={handleDeleteModal}
         />
       </>
     );
