@@ -39,21 +39,36 @@ const PageLayout = ({ pageTitle, children }) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <ul className="navbar-nav me-auto mb-2 mb-md-0">
-                <li className="nav-item">
-                  {user && user.is_admin ? (
-                    <Link
-                      className="nav-link active"
-                      replace
-                      to="/admin/dashboard"
-                    >
-                      Lessons
-                    </Link>
-                  ) : (
-                    <Link className="nav-link active" replace to="/dashboard">
-                      Dashboard
-                    </Link>
-                  )}
-                </li>
+                {user && user.is_admin ? (
+                  <>
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link active"
+                        replace
+                        to="/admin/dashboard"
+                      >
+                        Lessons
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link active" replace to="/dashboard">
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link active"
+                        replace
+                        to="/user/lessons"
+                      >
+                        Lessons
+                      </Link>
+                    </li>
+                  </>
+                )}
               </ul>
 
               <div className="d-flex align-items-center">
