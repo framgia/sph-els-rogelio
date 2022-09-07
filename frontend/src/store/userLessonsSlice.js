@@ -3,8 +3,8 @@ import { apiSlice } from "./apiSlice";
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUserLessons: builder.query({
-      query: (id) => ({
-        url: `/user/lessons`,
+      query: ({ query }) => ({
+        url: `/user/lessons?filter=${query}`,
         method: "GET",
       }),
       providesTags: (result, error, arg) => [
