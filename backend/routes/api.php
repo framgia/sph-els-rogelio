@@ -28,6 +28,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/user/lessons',[UserLessonController::class, 'index']);
   Route::get('/user/lessons/{lessonID}/take',[UserLessonController::class, 'show']);
   Route::post('/user/lessons/{lessonID}/validate',[UserLessonController::class, 'validateAnswers']);
+  Route::get('/user/lessons/{lessonID}/result',[UserLessonController::class, 'showResult']);
 });
 Route::middleware(['auth:sanctum','admin'])->group(function () {
   Route::resource('lessons',LessonController::class);
