@@ -11,6 +11,7 @@ import AdminWordsChoicesPage from "./AdminWordsChoicesPage";
 import AdminCreateWordsChoicesPage from "./AdminCreateWordsChoicesPage";
 import AdminUpdateWordsChoicesPage from "./AdminUpdateWordsChoicesPage";
 import UserLessonsPage from "./UserLessonsPage";
+import UserLessonQuizPage from "./UserLessonQuizPage";
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
             element={<AdminUpdateWordsChoicesPage />}
           />
           <Route path="/user/lessons" element={<UserLessonsPage />} />
+          <Route
+            path="/user/lessons/:lessonID/take"
+            element={<UserLessonQuizPage />}
+          />
         </Route>
       </Routes>
     </div>
