@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import withUserProtection from "../utilities/withUserProtection";
@@ -16,6 +16,7 @@ import ErrorPage from "./components/error/ErrorPage";
 import { toast } from "react-toastify";
 
 const UserLessonQuizPage = () => {
+  const navigate = useNavigate();
   const { lessonID } = useParams();
   const {
     data: userLesson,
@@ -32,6 +33,7 @@ const UserLessonQuizPage = () => {
         id: lessonID,
       }).unwrap();
       toast.success(res.message);
+      navigate(`/user/lessons/${lessonID}/result`);
     } catch (error) {
       if (error && error.status === 500) {
         toast.error(error.message);
