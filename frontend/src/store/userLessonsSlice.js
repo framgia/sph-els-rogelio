@@ -22,8 +22,21 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: (result, error, id) => [{ type: "UserLesson", id }],
     }),
+    validateUserLesson: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/user/lessons/${id}/validate`,
+        method: "POST",
+        data: data,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "UserLesson", id: arg.id },
+      ],
+    }),
   }),
 });
 
-export const { useGetUserLessonsQuery, useGetUserLessonQuery } =
-  extendedApiSlice;
+export const {
+  useGetUserLessonsQuery,
+  useGetUserLessonQuery,
+  useValidateUserLessonMutation,
+} = extendedApiSlice;
