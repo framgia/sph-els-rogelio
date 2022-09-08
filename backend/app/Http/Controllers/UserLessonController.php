@@ -36,4 +36,12 @@ class UserLessonController extends Controller
         }
         return array_values($userLessons);
     }
+    public function show(Request $request, $lessonID)
+    {
+        $userLessons=Lesson::where('id',$lessonID)->with('words.choices')->first();
+        return [
+          'lesson'=>$userLessons,
+          'is_taken'=>false
+        ];
+    }
 }
