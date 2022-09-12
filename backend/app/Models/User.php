@@ -44,7 +44,7 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class,'followers','following_id','follower_id')->withTimestamps();
     }
 
-    public function finished_lessons()
+    public function lessons()
     {
         return $this->belongsToMany(Lesson::class,'finished_lessons')->withTimestamps();
     }
@@ -52,5 +52,10 @@ class User extends Authenticatable
     public function activities()
     {
         return $this->hasMany(Activity::class);
+    }
+
+    public function finished_lessons()
+    {
+        return $this->hasMany(FinishedLesson::class);
     }
 }
