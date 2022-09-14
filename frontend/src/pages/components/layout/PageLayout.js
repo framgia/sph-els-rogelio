@@ -70,7 +70,11 @@ const PageLayout = ({ pageTitle, children }) => {
                   </>
                 )}
                 <li className="nav-item">
-                  <Link className="nav-link active" replace to="/profile">
+                  <Link
+                    className="nav-link active"
+                    replace
+                    to={`/profile/${user.id}`}
+                  >
                     Profile
                   </Link>
                 </li>
