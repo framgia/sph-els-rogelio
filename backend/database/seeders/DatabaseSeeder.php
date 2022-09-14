@@ -57,12 +57,5 @@ class DatabaseSeeder extends Seeder
                 'type'=>'lesson',
             ],
         ]);
-        $users[1]->activities()->createMany([
-            [
-                'activitable_id'=>$follower1->id,
-                'activitable_type'=>get_class($follower1),
-                'type'=>'follow',
-            ],
-        ]);
     }
 }
