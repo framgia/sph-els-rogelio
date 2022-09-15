@@ -9,6 +9,6 @@ class LogoutController extends Controller
 {
     public function logout(Request $request)
     {
-        return Auth::logout();
+        return Auth::guard('web')->logout();
     }
 }

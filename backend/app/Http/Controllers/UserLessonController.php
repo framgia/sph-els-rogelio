@@ -15,7 +15,7 @@ class UserLessonController extends Controller
 {
     public function index(Request $request)
     {
-        $lessons=Lesson::with('words')->get();
+        $lessons=Lesson::whereHas('words')->with('words')->get();
         $userLessons=[];
         foreach($lessons as $lesson){
           $is_taken=FinishedLesson::where([
@@ -42,14 +42,18 @@ class UserLessonController extends Controller
     public function show(Request $request, $lessonID)
     {
         $userLessons=Lesson::where('id',$lessonID)->with('words.choices')->first();
-        $is_taken=FinishedLesson::where([
-          ['user_id','=',Auth::user()->id],
-          ['lesson_id','=',$lessonID]
-        ])->exists();
-        return [
-          'lesson'=>$userLessons,
-          'is_taken'=>$is_taken
-        ];
+        if(count($userLessons->words)){
+          $is_taken=FinishedLesson::where([
+            ['user_id','=',Auth::user()->id],
+            ['lesson_id','=',$lessonID]
+          ])->exists();
+          return [
+            'lesson'=>$userLessons,
+            'is_taken'=>$is_taken
+          ];
+        }else{
+          return response()->json(['status' => false, 'data'=>null, 'message' => 'Cannot validate answers.', 'errors' => 'Validation Error'], 500);
+        }
     }
     public function validateAnswers(Request $request, $lessonID)
     {

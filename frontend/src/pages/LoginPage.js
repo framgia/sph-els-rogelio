@@ -6,6 +6,7 @@ import useAuth from "../utilities/useAuth";
 import { loginValidationSchema } from "../utilities/validation";
 import Button from "./components/button/Button";
 import withAuth from "../utilities/withAuth";
+import { Helmet } from "react-helmet-async";
 
 const LoginPage = () => {
   const { signIn, isLoading } = useAuth();
@@ -34,6 +35,9 @@ const LoginPage = () => {
   });
   return (
     <div className="container vh-100">
+      <Helmet>
+        <title>E-Learning | Login</title>
+      </Helmet>
       <main className="m-auto d-flex justify-content-center align-items-center w-100 h-100">
         <form>
           <h1 className="h3 mb-3 fw-normal text-center ">

@@ -6,6 +6,7 @@ import Button from "./components/button/Button";
 import { registrationValidationSchema } from "../utilities/validation";
 import { useRegisterUserMutation } from "../store/authSlice";
 import withAuth from "../utilities/withAuth";
+import { Helmet } from "react-helmet-async";
 
 const RegistrationPage = () => {
   const [registerUser, { isLoading }] = useRegisterUserMutation();
@@ -40,6 +41,9 @@ const RegistrationPage = () => {
   });
   return (
     <div className="container vh-100">
+      <Helmet>
+        <title>E-Learning | Register</title>
+      </Helmet>
       <main className="m-auto d-flex justify-content-center align-items-center w-100 h-100">
         <form>
           <h1 className="h3 mb-3 fw-normal text-center ">
