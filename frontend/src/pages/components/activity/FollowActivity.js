@@ -1,11 +1,20 @@
 import React from "react";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
-const FollowActivity = ({ follower, following, created_at, user_id }) => {
+const FollowActivity = ({
+  follower,
+  following,
+  created_at,
+  user_id,
+  user_avatar,
+}) => {
   return (
     <div className="d-flex align-items-center w-100 border rounded p-3 my-2 bg-primary">
       <img
-        src={"https://picsum.photos/200/300"}
+        src={`${process.env.REACT_APP_IMAGES_URL}/${
+          follower.id === user_id ? user_avatar : follower.avatar
+        }`}
         width="50"
         alt="user-profile"
         height="50"
@@ -14,8 +23,29 @@ const FollowActivity = ({ follower, following, created_at, user_id }) => {
       />
       <div>
         <span className="d-block small text-white">
-          {follower.id === user_id ? "You" : follower.name} followed{" "}
-          {following.id === user_id ? "You" : following.name}
+          {follower.id === user_id ? (
+            "You"
+          ) : (
+            <Link
+              className="text-white text-decoration-none"
+              replace
+              to={`/profile/${follower.id}`}
+            >
+              {follower.name}
+            </Link>
+          )}
+          {` followed `}
+          {following.id === user_id ? (
+            "you"
+          ) : (
+            <Link
+              className="text-white text-decoration-none"
+              replace
+              to={`/profile/${following.id}`}
+            >
+              {following.name}
+            </Link>
+          )}
         </span>
         <span className="small text-white">{moment(created_at).fromNow()}</span>
       </div>

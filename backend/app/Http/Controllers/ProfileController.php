@@ -13,11 +13,8 @@ class ProfileController extends Controller
         $user=User::with([
           'followers',
           'followings',
-          'finished_lessons.learned_words'=>function ($query) {
-            $query->whereHas('choice', function($q){
-              $q->where('is_correct',true);
-            });
-          }
+          'activities.activitable',
+          'finished_lessons'
         ])->findOrFail($id);
         return $user;
     }

@@ -1,8 +1,12 @@
+/* eslint-disable eqeqeq */
 export const countLearnedWords = (lessons) => {
   let count = 0;
   if (Array.isArray(lessons)) {
     lessons.forEach((lesson) => {
-      count += lesson.learned_words.length;
+      let temp = lesson.learned_words.filter((word) => {
+        return word.choice.is_correct == true;
+      });
+      count += temp.length;
     });
   } else {
     lessons.learned_words.forEach((word) => {

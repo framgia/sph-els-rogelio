@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FinishedLesson extends Model
 {
     protected $guarded=[];
+    protected $with=['user','lesson','learned_words.choice','learned_words.word_question'];
     public function user()
     {
         return $this->belongsTo(User::class);

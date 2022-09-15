@@ -3,8 +3,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
 import { useGetUserDashboardQuery } from "../store/dashboardSlice";
+import { combineUsersActivities } from "../utilities/combineUserActivities";
 import { countLearnedWords } from "../utilities/countLearnedWords";
-import { dummyUserActivities } from "../utilities/dummyData";
 import useAuth from "../utilities/useAuth";
 import withUserProtection from "../utilities/withUserProtection";
 import FollowActivity from "./components/activity/FollowActivity";
@@ -37,6 +37,10 @@ const UserDashboard = () => {
     );
   }
   if (isSuccess && !isFetching) {
+    let combinedActivities = combineUsersActivities(
+      userDashboard.activities,
+      userDashboard.followings
+    );
     output = (
       <Row className="p-5 h-100">
         <Col className="h-100">
@@ -87,28 +91,34 @@ const UserDashboard = () => {
               height: "calc(100vh - 300px)",
             }}
           >
-            {dummyUserActivities.map((activity) => {
-              return (
-                <div key={activity.id}>
-                  {activity.type === "follow" ? (
-                    <FollowActivity
-                      follower={activity.activitable.follower}
-                      following={activity.activitable.following}
-                      created_at={activity.created_at}
-                      user_id={user.id}
-                    />
-                  ) : (
-                    <LessonActivity
-                      lesson={activity.activitable}
-                      learned_words={activity.activitable.learned_words}
-                      user={activity.activitable.user}
-                      created_at={activity.created_at}
-                      user_id={user.id}
-                    />
-                  )}
-                </div>
-              );
-            })}
+            {combinedActivities?.length ? (
+              combinedActivities.map((activity) => {
+                return (
+                  <div key={activity.id}>
+                    {activity.type === "follow" ? (
+                      <FollowActivity
+                        follower={activity.activitable.follower}
+                        following={activity.activitable.following}
+                        created_at={activity.created_at}
+                        user_id={user.id}
+                        user_avatar={user.avatar}
+                      />
+                    ) : (
+                      <LessonActivity
+                        lesson={activity.activitable}
+                        learned_words={activity.activitable.learned_words}
+                        user={activity.activitable.user}
+                        created_at={activity.created_at}
+                        user_id={user.id}
+                        user_avatar={user.avatar}
+                      />
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <div className="text-center">No activities found.</div>
+            )}
           </div>
         </Col>
       </Row>

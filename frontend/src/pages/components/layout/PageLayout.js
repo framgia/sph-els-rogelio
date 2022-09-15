@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../utilities/useAuth";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet-async";
 
 const PageLayout = ({ pageTitle, children }) => {
   const { user, authenticated, signOut } = useAuth();
+  const navigate = useNavigate();
   const is_admin = user && user.is_admin ? "| Admin" : "";
   return (
     <div className="vh-100 d-flex flex-column">
@@ -97,8 +98,18 @@ const PageLayout = ({ pageTitle, children }) => {
                         title={user && user.name}
                         id="dropdown-menu-align-end"
                       >
-                        <Dropdown.Item eventKey="1">Profile</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Settings</Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey="1"
+                          onClick={() => navigate(`/profile/${user.id}`)}
+                        >
+                          Profile
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey="2"
+                          onClick={() => navigate(`/profile/settings`)}
+                        >
+                          Settings
+                        </Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item eventKey="3" onClick={() => signOut()}>
                           Logout
