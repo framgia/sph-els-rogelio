@@ -2,6 +2,8 @@ import React from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useFollowUserMutation } from "../store/followSlice";
 import { useGetUserProfileQuery } from "../store/profileSlice";
 import { checkUserExistence } from "../utilities/checkUserExistence";
 import { combineUsersActivities } from "../utilities/combineUserActivities";
@@ -17,16 +19,30 @@ import DataLoading from "./components/loading/DataLoading";
 const UserProfilePage = () => {
   const { userID } = useParams();
   const { user } = useAuth();
+  const [followUser, { isLoading: isFollowing }] = useFollowUserMutation();
   const {
     data: profile,
     isLoading,
     isError,
     isSuccess,
     isFetching,
+    refetch,
   } = useGetUserProfileQuery(
     { id: userID },
     { refetchOnMountOrArgChange: true }
   );
+  const handleFollow = async () => {
+    try {
+      await followUser({ id: userID }).unwrap();
+      refetch();
+    } catch (error) {
+      if (error && error.status === 500) {
+        toast.error(error.message);
+      } else {
+        toast.error(error);
+      }
+    }
+  };
   let output;
   if (isLoading || isFetching) {
     output = <DataLoading />;
@@ -96,6 +112,8 @@ const UserProfilePage = () => {
                   } btn-sm btn-block w-100 mt-2`}
                   label={`${isFollowed ? "Unfollow" : "Follow"}`}
                   isValid={true}
+                  isLoading={isFollowing}
+                  handleClick={handleFollow}
                 />
               )}
             </div>
