@@ -3,6 +3,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { useParams } from "react-router-dom";
 import { useGetUserProfileQuery } from "../store/profileSlice";
+import { checkUserExistence } from "../utilities/checkUserExistence";
 import { combineUsersActivities } from "../utilities/combineUserActivities";
 import { countLearnedWords } from "../utilities/countLearnedWords";
 import useAuth from "../utilities/useAuth";
@@ -40,6 +41,7 @@ const UserProfilePage = () => {
     );
   }
   if (isSuccess && !isFetching) {
+    let isFollowed = checkUserExistence(profile.followers, user.id);
     let combinedActivities = combineUsersActivities(profile.activities);
     output = (
       <Row className="p-5 h-100">
@@ -89,12 +91,13 @@ const UserProfilePage = () => {
               </div>
               {profile.id !== user.id && (
                 <Button
-                  className="btn btn-success btn-sm btn-block w-100 mt-2"
-                  label="Follow"
+                  className={`btn btn-${
+                    isFollowed ? "outline-primary" : "primary"
+                  } btn-sm btn-block w-100 mt-2`}
+                  label={`${isFollowed ? "Unfollow" : "Follow"}`}
                   isValid={true}
                 />
               )}
-              <div className="buttons"></div>
             </div>
           </div>
         </Col>
