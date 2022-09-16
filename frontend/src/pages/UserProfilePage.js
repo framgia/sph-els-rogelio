@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFollowUserMutation } from "../store/followSlice";
 import { useGetUserProfileQuery } from "../store/profileSlice";
@@ -18,6 +18,7 @@ import DataLoading from "./components/loading/DataLoading";
 import ListModal from "./components/modals/ListModal";
 
 const UserProfilePage = () => {
+  const navigate = useNavigate();
   const { userID } = useParams();
   const { user } = useAuth();
   const [followUser, { isLoading: isFollowing }] = useFollowUserMutation();
@@ -115,12 +116,20 @@ const UserProfilePage = () => {
               <div className="text-center">
                 <hr />
                 <div className="w-100 d-flex align-items-center gap-1 justify-content-center">
-                  <span className="bg-secondary small w-100 p-1 px-4 rounded text-white">
+                  <button
+                    disabled={profile.id !== user.id || user.is_admin}
+                    onClick={() => navigate("/learned/lessons")}
+                    className="btn btn-sm btn-secondary w-100 p-1 px-4 rounded text-white"
+                  >
                     Finished {profile.finished_lessons.length} lessons
-                  </span>
-                  <span className="bg-secondary small w-100 p-1 px-4 rounded text-white">
+                  </button>
+                  <button
+                    disabled={profile.id !== user.id || user.is_admin}
+                    onClick={() => navigate("/learned/words")}
+                    className="btn btn-sm btn-secondary w-100 p-1 px-4 rounded text-white"
+                  >
                     Learned {countLearnedWords(profile.finished_lessons)} words
-                  </span>
+                  </button>
                 </div>
                 {profile.id !== user.id && (
                   <Button
