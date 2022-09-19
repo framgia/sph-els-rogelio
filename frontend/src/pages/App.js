@@ -15,6 +15,7 @@ import UserLessonQuizPage from "./UserLessonQuizPage";
 import UserLessonQuizResultPage from "./UserLessonQuizResultPage";
 import UserProfilePage from "./UserProfilePage";
 import MatchLearningsRoute from "./components/routes/MatchLearningsRoute";
+import UserProfileSettingsPage from "./UserProfileSettingsPage";
 
 function App() {
   return (
@@ -50,6 +51,10 @@ function App() {
           <Route
             path="/user/lessons/:lessonID/result"
             element={<UserLessonQuizResultPage />}
+          />
+          <Route
+            path="/profile/settings"
+            element={<UserProfileSettingsPage />}
           />
           <Route path="/profile/:userID" element={<UserProfilePage />} />
           <Route path="/learned/:type" element={<MatchLearningsRoute />} />
