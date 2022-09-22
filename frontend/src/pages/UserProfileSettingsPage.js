@@ -6,6 +6,7 @@ import useAuth from "../utilities/useAuth";
 import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";
 import DataLoading from "./components/loading/DataLoading";
+import AvatarSection from "./components/settings/AvatarSection";
 import GeneralInfoSection from "./components/settings/GeneralInfoSection";
 import PasswordSection from "./components/settings/PasswordSection";
 
@@ -36,7 +37,10 @@ const UserProfileSettingsPage = () => {
       <Row className="p-5 h-100">
         <Col className="h-100">
           <div className="card p-3">
-            <h5 className="mb-3">Profile Photo</h5>
+            <AvatarSection
+              avatar={profile.data.avatar}
+              revalidate={revalidate}
+            />
           </div>
         </Col>
         <Col className="h-100">
