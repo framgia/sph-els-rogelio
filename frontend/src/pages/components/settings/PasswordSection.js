@@ -1,14 +1,31 @@
 import { useFormik } from "formik";
 import React from "react";
+import { toast } from "react-toastify";
+import { useChangePasswordMutation } from "../../../store/userSlice";
 import { passwordValidationSchema } from "../../../utilities/validation";
 import Button from "../button/Button";
 
 const PasswordSection = () => {
-  const handleFormSubmit = async () => {};
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const handleFormSubmit = async () => {
+    try {
+      const res = await changePassword({ data: values }).unwrap();
+      toast.success(res.message);
+      resetForm();
+    } catch (error) {
+      if (error && error.status === 500) {
+        setFieldError("password", error.data.message);
+      } else {
+        toast.error(error);
+      }
+    }
+  };
   const {
     handleChange,
     handleSubmit,
     handleBlur,
+    resetForm,
+    setFieldError,
     values,
     errors,
     isValid,
@@ -80,6 +97,7 @@ const PasswordSection = () => {
           <Button
             label={"Save"}
             isValid={isValid}
+            isLoading={isLoading}
             className={"btn btn-primary"}
             handleClick={handleSubmit}
           />
