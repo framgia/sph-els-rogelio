@@ -43,6 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/user/lessons/{lessonID}/result',[UserLessonController::class, 'showResult']);
 });
 Route::middleware(['auth:sanctum','admin'])->group(function () {
+  Route::get('/admins',[UsersListController::class, 'admins']);
   Route::resource('lessons',LessonController::class);
   Route::get('/lessons/{id}/words',[WordChoiceController::class, 'index']);
   Route::post('/lessons/{id}/words',[WordChoiceController::class, 'store']);

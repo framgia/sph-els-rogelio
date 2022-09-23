@@ -18,6 +18,7 @@ import MatchLearningsRoute from "./components/routes/MatchLearningsRoute";
 import UserProfileSettingsPage from "./UserProfileSettingsPage";
 import UserListPage from "./UserListPage";
 import AdminUserListPage from "./AdminUserListPage";
+import ErrorPage from "./components/error/ErrorPage";
 
 function App() {
   return (
@@ -63,6 +64,16 @@ function App() {
           <Route path="/users" element={<UserListPage />} />
           <Route path="/admins" element={<AdminUserListPage />} />
         </Route>
+        <Route
+          path="*"
+          element={
+            <ErrorPage
+              errorStatus={404}
+              errorType={"Page Not Found"}
+              errorMessage={"We cannot find the page you are looking for."}
+            />
+          }
+        />
       </Routes>
     </div>
   );
