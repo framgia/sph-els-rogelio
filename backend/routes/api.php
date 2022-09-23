@@ -13,6 +13,7 @@ use App\Http\Controllers\UserLessonController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\UsersListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::post('login',[LoginController::class, 'login']);
 Route::post('logout',[LogoutController::class, 'logout']);
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('user',[UserController::class, 'user']);
+  Route::get('/users',[UsersListController::class, 'users']);
   Route::put('/user/change/general-info',[UserController::class, 'changeGeneralInfo']);
   Route::put('/user/change/password',[UserController::class, 'changePassword']);
   Route::post('/user/change/avatar',[UserController::class, 'changeAvatar']);
