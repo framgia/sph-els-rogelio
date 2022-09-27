@@ -106,9 +106,9 @@ const AdminWordsChoicesPage = () => {
   if (isError) {
     output = (
       <ErrorPage
-        errorStatus={401}
-        errorType={"Unauthorized Access"}
-        errorMessage={"You are not authorized to access this page."}
+        errorStatus={404}
+        errorType={"Data not found"}
+        errorMessage={"The data you are looking for cannot be found."}
       />
     );
   }
@@ -144,13 +144,15 @@ const AdminWordsChoicesPage = () => {
     <PageLayout pageTitle={"Admin Words and Choices"}>
       <div className="d-flex mt-3 align-items-center">
         <h1 className="me-4">Words and Choices</h1>
-        <Link
-          className="btn btn-success my-auto"
-          replace
-          to={`/lessons/${lessonID}/words/create`}
-        >
-          Add Word
-        </Link>
+        {!isError && (
+          <Link
+            className="btn btn-success my-auto"
+            replace
+            to={`/lessons/${lessonID}/words/create`}
+          >
+            Add Word
+          </Link>
+        )}
       </div>
       {output}
     </PageLayout>

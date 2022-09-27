@@ -83,9 +83,9 @@ const UserLessonQuizPage = () => {
   if (isError) {
     output = (
       <ErrorPage
-        errorStatus={401}
-        errorType={"Unauthorized Access"}
-        errorMessage={"You are not authorized to access this page."}
+        errorStatus={404}
+        errorType={"Lesson Not Found"}
+        errorMessage={"Lesson may not exist or you already took the lesson."}
       />
     );
   }

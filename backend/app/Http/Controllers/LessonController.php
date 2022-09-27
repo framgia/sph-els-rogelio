@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Lesson;
+use App\Models\FinishedLesson;
+use App\Models\LearnedWord;
+use App\Models\Activity;
 
 class LessonController extends Controller
 {
@@ -53,6 +56,15 @@ class LessonController extends Controller
 
     public function destroy(Lesson $lesson)
     {
+        $finishedLessons=FinishedLesson::where('lesson_id',$lesson->id)->get();
+        foreach($finishedLessons as $finishedLesson){
+          Activity::where([
+            ['type','=','lesson'],
+            ['activitable_id','=',$finishedLesson->id]
+          ])->delete();
+          LearnedWord::where('finished_lesson_id',$finishedLesson->id)->delete();
+        }
+        FinishedLesson::where('lesson_id',$lesson->id)->delete();
         $lessonDelete=$lesson->delete();
         if(!$lessonDelete){
             return response()->json(['status' => false, 'data'=>null, 'message' => 'Cannot delete lesson.', 'errors' => 'Delete Error'], 500);

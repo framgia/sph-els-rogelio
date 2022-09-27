@@ -5,24 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lesson;
 use App\Models\WordQuestion;
+use App\Models\LearnedWord;
 use App\Models\Choice;
 
 class WordChoiceController extends Controller
 {
     public function index($id)
     {
-        return Lesson::where('id',$id)->with(['words' => function ($query) {
+        return Lesson::with(['words' => function ($query) {
           $query->orderBy('created_at','DESC');
-        },'words.choices'])->first();
+        },'words.choices'])->findOrFail($id);
     }
     public function show($lessonID, $wordID)
     {
+        $word=WordQuestion::where([
+          ['id','=',$wordID],
+          ['lesson_id','=',$lessonID],
+        ])->firstOrFail();
         $lesson=Lesson::where('id',$lessonID)->with([
-          'words' => function($query) use ($wordID){
-            $query->where('id', $wordID)->with('choices');
+          'words' => function($query) use ($word){
+            $query->where('id', $word->id)->with('choices');
           }
         ]);
-        return $lesson->first();
+        return $word?$lesson->first():$word;
     }
     public function store(Request $request, $id)
     {
@@ -66,6 +71,7 @@ class WordChoiceController extends Controller
           }
         }
         Choice::where('word_question_id',$wordID)->whereNotIn('id',$choice_ids)->delete();
+        LearnedWord::where('word_question_id',$wordID)->whereNotIn('choice_id',$choice_ids)->delete();
         if(!$word){
             return response()->json(['status' => false, 'data'=>null, 'message' => 'Cannot update word and choices.', 'errors' => 'Update Error'], 500);
         }
@@ -78,6 +84,7 @@ class WordChoiceController extends Controller
     }
     public function destroy($lessonID, $wordID)
     {
+        LearnedWord::where('word_question_id',$wordID)->delete();
         Choice::where('word_question_id',$wordID)->delete();
         $word=WordQuestion::where('id',$wordID)->delete();
         if(!$word){

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -57,12 +58,12 @@ class UserController extends Controller
     public function changeAvatar(Request $request)
     {
         if($request->user()->avatar!='default_profile_avatar.jpg'){
-          if(File::exists("images/".$request->user()->avatar)){
-            File::delete("images/".$request->user()->avatar);
+          if(Storage::disk('local')->exists('public/images/'.$request->user()->avatar)){
+            Storage::delete('public/images/'.$request->user()->avatar);
           }
         }
         $filename = time().rand(100,999).'.'.$request->file('image')->getClientOriginalExtension();
-        $request->file('image')->move('images/', $filename);
+        Storage::disk('local')->put('public/images/'.$filename, file_get_contents($request->file('image')));
         $user=User::where('id',$request->user()->id)->update([
             'avatar'=>$filename
         ]);
