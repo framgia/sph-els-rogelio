@@ -2,10 +2,10 @@ import React from "react";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAuth from "../utilities/useAuth";
-import { loginValidationSchema } from "../utilities/validation";
+import useAuth from "utilities/useAuth";
+import { loginValidationSchema } from "utilities/validation";
 import Button from "./components/button/Button";
-import withAuth from "../utilities/withAuth";
+import withAuth from "utilities/withAuth";
 import { Helmet } from "react-helmet-async";
 
 const LoginPage = () => {

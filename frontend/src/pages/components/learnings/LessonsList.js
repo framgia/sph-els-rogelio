@@ -1,5 +1,5 @@
 import React from "react";
-import { countLearnedWords } from "../../../utilities/countLearnedWords";
+import { countLearnedWords } from "utilities/countLearnedWords";
 
 const LessonsList = ({ finished_lessons }) => {
   return (

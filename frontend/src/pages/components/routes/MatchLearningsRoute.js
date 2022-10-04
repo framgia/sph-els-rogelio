@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, useParams } from "react-router-dom";
-import LessonsWordsPage from "../../LessonsWordsPage";
+import LessonsWordsPage from "pages/LessonsWordsPage";
 
 const MatchLearningsRoute = () => {
   const { type } = useParams();

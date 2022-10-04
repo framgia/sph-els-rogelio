@@ -1,11 +1,11 @@
 import React from "react";
 import PageLayout from "./components/layout/PageLayout";
 import { useFormik } from "formik";
-import { lessonValidationSchema } from "../utilities/validation";
+import { lessonValidationSchema } from "utilities/validation";
 import Button from "./components/button/Button";
-import { useCreateLessonMutation } from "../store/lessonsSlice";
+import { useCreateLessonMutation } from "store/lessonsSlice";
 import { toast } from "react-toastify";
-import withAdminProtection from "../utilities/withAdminProtection";
+import withAdminProtection from "utilities/withAdminProtection";
 
 const AdminCreateLessonPage = () => {
   const [createLesson, { isLoading }] = useCreateLessonMutation();

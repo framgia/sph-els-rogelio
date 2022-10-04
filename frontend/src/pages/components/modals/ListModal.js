@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import Button from "../button/Button";
+import Button from "pages/components/button/Button";
 
 const ListModal = ({ users, show, setShow, headerTitle, user_id }) => {
   const navigate = useNavigate();

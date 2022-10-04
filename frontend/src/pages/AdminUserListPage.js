@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import withAdminProtection from "../utilities/withAdminProtection";
+import withAdminProtection from "utilities/withAdminProtection";
 import PageLayout from "./components/layout/PageLayout";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { customStyles } from "./components/datatable/datatable";
-import useAuth from "../utilities/useAuth";
-import { checkUserExistence } from "../utilities/checkUserExistence";
+import useAuth from "utilities/useAuth";
+import { checkUserExistence } from "utilities/checkUserExistence";
 import Button from "./components/button/Button";
 import { useNavigate } from "react-router-dom";
-import { useGetAdminUsersListQuery } from "../store/usersListSlice";
+import { useGetAdminUsersListQuery } from "store/usersListSlice";
 import { toast } from "react-toastify";
 import DataLoading from "./components/loading/DataLoading";
 import ErrorPage from "./components/error/ErrorPage";
-import { useFollowUserMutation } from "../store/followSlice";
+import { useFollowUserMutation } from "store/followSlice";
 
 const AdminUserListPage = () => {
   const {

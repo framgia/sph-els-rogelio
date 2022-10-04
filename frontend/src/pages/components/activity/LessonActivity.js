@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { countLearnedWords } from "../../../utilities/countLearnedWords";
+import { countLearnedWords } from "utilities/countLearnedWords";
 import { Link } from "react-router-dom";
 
 const LessonActivity = ({

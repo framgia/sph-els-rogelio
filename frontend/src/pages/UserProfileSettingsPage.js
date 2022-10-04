@@ -1,7 +1,7 @@
 import React from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { useGetUserQuery } from "../store/userSlice";
+import { useGetUserQuery } from "store/userSlice";
 import useAuth from "../utilities/useAuth";
 import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";

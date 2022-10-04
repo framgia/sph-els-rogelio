@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
 import React from "react";
 import { toast } from "react-toastify";
-import { useChangePasswordMutation } from "../../../store/userSlice";
-import { passwordValidationSchema } from "../../../utilities/validation";
-import Button from "../button/Button";
+import { useChangePasswordMutation } from "store/userSlice";
+import { passwordValidationSchema } from "utilities/validation";
+import Button from "pages/components/button/Button";
 
 const PasswordSection = () => {
   const [changePassword, { isLoading }] = useChangePasswordMutation();

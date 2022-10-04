@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import PageLoading from "../pages/components/loading/PageLoading";
+import PageLoading from "pages/components/loading/PageLoading";
 import useAuth from "./useAuth";
 
 const withAuth = (Component) => {

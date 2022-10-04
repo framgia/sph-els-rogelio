@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import {
   useDeleteWordChoiceMutation,
   useGetWordsChoicesQuery,
-} from "../store/wordsChoicesSlice";
-import withAdminProtection from "../utilities/withAdminProtection";
+} from "store/wordsChoicesSlice";
+import withAdminProtection from "utilities/withAdminProtection";
 import Button from "./components/button/Button";
 import { customStyles } from "./components/datatable/datatable";
 import ErrorPage from "./components/error/ErrorPage";

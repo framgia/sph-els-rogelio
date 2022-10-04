@@ -1,8 +1,8 @@
 import React from "react";
 import DataTable from "react-data-table-component";
 import { Link, useParams } from "react-router-dom";
-import { useShowResultQuery } from "../store/userLessonsSlice";
-import withUserProtection from "../utilities/withUserProtection";
+import { useShowResultQuery } from "store/userLessonsSlice";
+import withUserProtection from "utilities/withUserProtection";
 import { customStyles } from "./components/datatable/datatable";
 import ErrorPage from "./components/error/ErrorPage";
 import PageLayout from "./components/layout/PageLayout";

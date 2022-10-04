@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import api from "../../../utilities/api";
+import api from "utilities/api";
 import AuthContext from "./AuthContext";
 
 const Auth = ({ children }) => {

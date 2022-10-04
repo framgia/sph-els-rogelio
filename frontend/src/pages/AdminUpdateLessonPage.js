@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
 import PageLayout from "./components/layout/PageLayout";
 import { useFormik } from "formik";
-import { lessonValidationSchema } from "../utilities/validation";
+import { lessonValidationSchema } from "utilities/validation";
 import Button from "./components/button/Button";
 import { useParams } from "react-router-dom";
-import {
-  useGetLessonQuery,
-  useUpdateLessonMutation,
-} from "../store/lessonsSlice";
+import { useGetLessonQuery, useUpdateLessonMutation } from "store/lessonsSlice";
 import DataLoading from "./components/loading/DataLoading";
 import ErrorPage from "./components/error/ErrorPage";
 import { toast } from "react-toastify";
-import withAdminProtection from "../utilities/withAdminProtection";
+import withAdminProtection from "utilities/withAdminProtection";
 
 const AdminUpdateLessonPage = () => {
   const { id } = useParams();

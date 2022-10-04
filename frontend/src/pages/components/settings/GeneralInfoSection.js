@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-import { useChangeGeneralInfoMutation } from "../../../store/userSlice";
-import { generalInfoValidationSchema } from "../../../utilities/validation";
-import Button from "../button/Button";
+import { useChangeGeneralInfoMutation } from "store/userSlice";
+import { generalInfoValidationSchema } from "utilities/validation";
+import Button from "pages/components/button/Button";
 
 const GeneralInfoSection = ({ name, email, revalidate }) => {
   const [changeGeneralInfo, { isLoading }] = useChangeGeneralInfoMutation();

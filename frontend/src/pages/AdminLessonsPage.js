@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import withAdminProtection from "../utilities/withAdminProtection";
+import withAdminProtection from "utilities/withAdminProtection";
 import PageLayout from "./components/layout/PageLayout";
 import DataTable from "react-data-table-component";
 import Button from "./components/button/Button";
@@ -7,7 +7,7 @@ import { customStyles } from "./components/datatable/datatable";
 import {
   useDeleteLessonMutation,
   useGetLessonsQuery,
-} from "../store/lessonsSlice";
+} from "store/lessonsSlice";
 import DataLoading from "./components/loading/DataLoading";
 import ErrorPage from "./components/error/ErrorPage";
 import { Link, useNavigate } from "react-router-dom";

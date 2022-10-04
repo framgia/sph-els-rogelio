@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import withUserProtection from "../utilities/withUserProtection";
+import withUserProtection from "utilities/withUserProtection";
 import PageLayout from "./components/layout/PageLayout";
 import Button from "./components/button/Button";
-import { lessonQuizValidationSchema } from "../utilities/validation";
+import { lessonQuizValidationSchema } from "utilities/validation";
 import {
   useGetUserLessonQuery,
   useValidateUserLessonMutation,
-} from "../store/userLessonsSlice";
+} from "store/userLessonsSlice";
 import DataLoading from "./components/loading/DataLoading";
 import ErrorPage from "./components/error/ErrorPage";
 import { toast } from "react-toastify";

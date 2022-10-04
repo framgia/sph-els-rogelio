@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { useChangeAvatarMutation } from "../../../store/userSlice";
-import { avatarValidationSchema } from "../../../utilities/validation";
-import Button from "../button/Button";
+import { useChangeAvatarMutation } from "store/userSlice";
+import { avatarValidationSchema } from "utilities/validation";
+import Button from "pages/components/button/Button";
 
 const AvatarSection = ({ avatar, revalidate }) => {
   const [preview, setPreview] = useState(false);

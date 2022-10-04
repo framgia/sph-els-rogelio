@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import { wordChoiceValidationSchema } from "../utilities/validation";
-import withAdminProtection from "../utilities/withAdminProtection";
+import { wordChoiceValidationSchema } from "utilities/validation";
+import withAdminProtection from "utilities/withAdminProtection";
 import PageLayout from "./components/layout/PageLayout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,7 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import {
   useGetWordChoiceQuery,
   useUpdateWordChoiceMutation,
-} from "../store/wordsChoicesSlice";
+} from "store/wordsChoicesSlice";
 import { toast } from "react-toastify";
 import DataLoading from "./components/loading/DataLoading";
 import ErrorPage from "./components/error/ErrorPage";

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../../../utilities/useAuth";
+import useAuth from "utilities/useAuth";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { Helmet } from "react-helmet-async";
