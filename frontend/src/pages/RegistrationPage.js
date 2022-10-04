@@ -58,7 +58,7 @@ const RegistrationPage = () => {
               className={`form-control ${
                 errors.name && touched.name ? "border-danger" : ""
               }`}
-              placeholder="name@example.com"
+              placeholder="Name"
             />
             <label htmlFor="floatingInput">Name</label>
             {errors.name && touched.name && (
@@ -74,7 +74,7 @@ const RegistrationPage = () => {
               className={`form-control ${
                 errors.email && touched.email ? "border-danger" : ""
               }`}
-              placeholder="name@example.com"
+              placeholder="Email"
             />
             <label htmlFor="floatingInput">Email address</label>
             {errors.email && touched.email && (
@@ -110,7 +110,7 @@ const RegistrationPage = () => {
                   : ""
               }`}
               id="floatingrepeatPassword"
-              placeholder="repeatPassword"
+              placeholder="Repeat Password"
             />
             <label htmlFor="floatingInput">Repeat Password</label>
             {errors.repeatPassword && touched.repeatPassword && (

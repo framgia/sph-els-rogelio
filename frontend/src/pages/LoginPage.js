@@ -53,7 +53,7 @@ const LoginPage = () => {
                 errors.email && touched.email ? "border-danger" : ""
               }`}
               id="floatingInput"
-              placeholder="name@example.com"
+              placeholder="Email"
             />
             <label htmlFor="floatingInput">Email address</label>
             {errors.email && touched.email && (
