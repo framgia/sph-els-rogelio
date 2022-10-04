@@ -7,12 +7,12 @@ import {
   useGetWordsChoicesQuery,
 } from "store/wordsChoicesSlice";
 import withAdminProtection from "utilities/withAdminProtection";
-import Button from "./components/button/Button";
-import { customStyles } from "./components/datatable/datatable";
-import ErrorPage from "./components/error/ErrorPage";
-import PageLayout from "./components/layout/PageLayout";
-import DataLoading from "./components/loading/DataLoading";
-import ConfirmationModal from "./components/modals/ConfirmationModal";
+import Button from "pages/components/button/Button";
+import { customStyles } from "pages/components/datatable/datatable";
+import ErrorPage from "pages/components/error/ErrorPage";
+import PageLayout from "pages/components/layout/PageLayout";
+import DataLoading from "pages/components/loading/DataLoading";
+import ConfirmationModal from "pages/components/modals/ConfirmationModal";
 
 const AdminWordsChoicesPage = () => {
   const navigate = useNavigate();

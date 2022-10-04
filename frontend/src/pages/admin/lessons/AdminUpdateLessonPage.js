@@ -1,19 +1,29 @@
-import React from "react";
-import PageLayout from "./components/layout/PageLayout";
+import React, { useEffect } from "react";
+import PageLayout from "pages/components/layout/PageLayout";
 import { useFormik } from "formik";
 import { lessonValidationSchema } from "utilities/validation";
-import Button from "./components/button/Button";
-import { useCreateLessonMutation } from "store/lessonsSlice";
+import Button from "pages/components/button/Button";
+import { useParams } from "react-router-dom";
+import { useGetLessonQuery, useUpdateLessonMutation } from "store/lessonsSlice";
+import DataLoading from "pages/components/loading/DataLoading";
+import ErrorPage from "pages/components/error/ErrorPage";
 import { toast } from "react-toastify";
 import withAdminProtection from "utilities/withAdminProtection";
 
-const AdminCreateLessonPage = () => {
-  const [createLesson, { isLoading }] = useCreateLessonMutation();
+const AdminUpdateLessonPage = () => {
+  const { id } = useParams();
+  const {
+    data: lesson,
+    isLoading: fetchLessonLoading,
+    isError,
+    isSuccess,
+  } = useGetLessonQuery(id);
+  const [updateLesson, { isLoading: updateLessonLoading }] =
+    useUpdateLessonMutation();
   const handleFormSubmit = async () => {
     try {
-      const res = await createLesson(values).unwrap();
+      const res = await updateLesson({ data: values, id }).unwrap();
       toast.success(res.message);
-      resetForm();
     } catch (error) {
       if (error && error.status === 500) {
         toast.error(error.message);
@@ -26,22 +36,44 @@ const AdminCreateLessonPage = () => {
     handleChange,
     handleSubmit,
     handleBlur,
-    resetForm,
+    setValues,
     values,
     errors,
     isValid,
     touched,
   } = useFormik({
-    initialValues: { title: "", description: "" },
+    initialValues: {
+      title: "",
+      description: "",
+    },
     enableReinitialize: true,
     validationSchema: lessonValidationSchema,
     onSubmit: handleFormSubmit,
   });
-  return (
-    <PageLayout pageTitle={"Admin Dashboard | Create Lesson"}>
+  useEffect(() => {
+    if (isSuccess) {
+      setValues({ title: lesson.title, description: lesson.description });
+    }
+  }, [isSuccess, lesson, setValues]);
+  let output;
+  if (fetchLessonLoading) {
+    output = <DataLoading />;
+  }
+  if (isError) {
+    output = (
+      <ErrorPage
+        errorStatus={404}
+        errorType={"Data not found"}
+        errorMessage={"We did not find the data you are looking for."}
+      />
+    );
+  }
+
+  if (isSuccess) {
+    output = (
       <div className="m-auto d-flex justify-content-center align-items-center w-100 h-100">
         <form className="w-50 mt-5">
-          <h3>Add Lesson/Category</h3>
+          <h3>Update Lesson/Category</h3>
           <div className="form-floating mb-2 my-3">
             <input
               type="text"
@@ -83,14 +115,19 @@ const AdminCreateLessonPage = () => {
           <Button
             className={"w-100 mt-3 btn btn-lg btn-primary"}
             isValid={isValid}
-            isLoading={isLoading}
+            isLoading={fetchLessonLoading || updateLessonLoading}
             handleClick={handleSubmit}
-            label={"Add Lesson"}
+            label={"Update Lesson"}
           />
         </form>
       </div>
+    );
+  }
+  return (
+    <PageLayout pageTitle={"Admin Dashboard | Update Lesson"}>
+      {output}
     </PageLayout>
   );
 };
 
-export default withAdminProtection(AdminCreateLessonPage);
+export default withAdminProtection(AdminUpdateLessonPage);

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import withAdminProtection from "utilities/withAdminProtection";
-import PageLayout from "./components/layout/PageLayout";
+import PageLayout from "pages/components/layout/PageLayout";
 import DataTable from "react-data-table-component";
-import Button from "./components/button/Button";
-import { customStyles } from "./components/datatable/datatable";
+import Button from "pages/components/button/Button";
+import { customStyles } from "pages/components/datatable/datatable";
 import {
   useDeleteLessonMutation,
   useGetLessonsQuery,
 } from "store/lessonsSlice";
-import DataLoading from "./components/loading/DataLoading";
-import ErrorPage from "./components/error/ErrorPage";
+import DataLoading from "pages/components/loading/DataLoading";
+import ErrorPage from "pages/components/error/ErrorPage";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmationModal from "./components/modals/ConfirmationModal";
+import ConfirmationModal from "pages/components/modals/ConfirmationModal";
 import { toast } from "react-toastify";
 
 const AdminLessonsPage = () => {

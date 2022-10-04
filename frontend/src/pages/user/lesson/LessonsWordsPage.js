@@ -1,20 +1,20 @@
 import React from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetUserDashboardQuery } from "store/dashboardSlice";
-import { combineUsersActivities } from "utilities/combineUserActivities";
 import { countLearnedWords } from "utilities/countLearnedWords";
 import useAuth from "utilities/useAuth";
 import withUserProtection from "utilities/withUserProtection";
-import FollowActivity from "./components/activity/FollowActivity";
-import LessonActivity from "./components/activity/LessonActivity";
-import ErrorPage from "./components/error/ErrorPage";
-import PageLayout from "./components/layout/PageLayout";
-import DataLoading from "./components/loading/DataLoading";
+import ErrorPage from "pages/components/error/ErrorPage";
+import PageLayout from "pages/components/layout/PageLayout";
+import LessonsList from "pages/components/learnings/LessonsList";
+import WordsList from "pages/components/learnings/WordsList";
+import DataLoading from "pages/components/loading/DataLoading";
 
-const UserDashboard = () => {
+const LessonsWordsPage = () => {
   const navigate = useNavigate();
+  const { type } = useParams();
   const { user } = useAuth();
   const {
     data: userDashboard,
@@ -38,10 +38,6 @@ const UserDashboard = () => {
     );
   }
   if (isSuccess && !isFetching) {
-    let combinedActivities = combineUsersActivities(
-      userDashboard.activities,
-      userDashboard.followings
-    );
     output = (
       <Row className="p-5 h-100">
         <Col className="h-100">
@@ -64,21 +60,21 @@ const UserDashboard = () => {
             <div className="text-center">
               <hr />
               <div className="w-100 d-flex align-items-center gap-1 justify-content-center">
-                <button
-                  disabled={userDashboard.id !== user.id}
+                <span
+                  role={"button"}
                   onClick={() => navigate("/learned/lessons")}
-                  className="btn btn-sm btn-secondary w-100 p-1 px-4 rounded text-white"
+                  className="bg-secondary small w-100 p-1 px-4 rounded text-white"
                 >
                   Finished {userDashboard.finished_lessons.length} lessons
-                </button>
-                <button
-                  disabled={userDashboard.id !== user.id}
+                </span>
+                <span
+                  role={"button"}
                   onClick={() => navigate("/learned/words")}
-                  className="btn btn-sm btn-secondary w-100 p-1 px-4 rounded text-white"
+                  className="bg-secondary small w-100 p-1 px-4 rounded text-white"
                 >
                   Learned {countLearnedWords(userDashboard.finished_lessons)}{" "}
                   words
-                </button>
+                </span>
               </div>
               <Link
                 replace
@@ -91,7 +87,16 @@ const UserDashboard = () => {
           </div>
         </Col>
         <Col xs={12} sm={12} md={8} lg={8} className="h-100">
-          <h5 className="mb-3">Activities</h5>
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item h6">
+                <Link to={"/dashboard"}>Activities</Link>
+              </li>
+              <li className="breadcrumb-item h6 active" aria-current="page">
+                {type === "lessons" ? "Finished Lessons" : "Learned Words"}
+              </li>
+            </ol>
+          </nav>
           <div
             className="shadow-sm border rounded border-secondary p-3"
             style={{
@@ -99,40 +104,21 @@ const UserDashboard = () => {
               height: "calc(100vh - 300px)",
             }}
           >
-            {combinedActivities?.length ? (
-              combinedActivities.map((activity) => {
-                return (
-                  <div key={activity.id}>
-                    {activity.type === "follow" ? (
-                      <FollowActivity
-                        follower={activity.activitable.follower}
-                        following={activity.activitable.following}
-                        created_at={activity.created_at}
-                        user_id={user.id}
-                        user_avatar={user.avatar}
-                      />
-                    ) : (
-                      <LessonActivity
-                        lesson={activity.activitable}
-                        learned_words={activity.activitable.learned_words}
-                        user={activity.activitable.user}
-                        created_at={activity.created_at}
-                        user_id={user.id}
-                        user_avatar={user.avatar}
-                      />
-                    )}
-                  </div>
-                );
-              })
+            {type === "lessons" ? (
+              <LessonsList finished_lessons={userDashboard.finished_lessons} />
             ) : (
-              <div className="text-center">No activities found.</div>
+              <WordsList finished_lessons={userDashboard.finished_lessons} />
             )}
           </div>
         </Col>
       </Row>
     );
   }
-  return <PageLayout pageTitle={"Dashboard"}>{output}</PageLayout>;
+  return (
+    <PageLayout pageTitle={"Finished lessons and Learned words"}>
+      {output}
+    </PageLayout>
+  );
 };
 
-export default withUserProtection(UserDashboard);
+export default withUserProtection(LessonsWordsPage);

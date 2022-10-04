@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetUserLessonsQuery } from "store/userLessonsSlice";
 import withUserProtection from "utilities/withUserProtection";
-import ErrorPage from "./components/error/ErrorPage";
-import PageLayout from "./components/layout/PageLayout";
-import DataLoading from "./components/loading/DataLoading";
+import ErrorPage from "pages/components/error/ErrorPage";
+import PageLayout from "pages/components/layout/PageLayout";
+import DataLoading from "pages/components/loading/DataLoading";
 
 const UserLessonsPage = () => {
   const [query, setQuery] = useState("All");

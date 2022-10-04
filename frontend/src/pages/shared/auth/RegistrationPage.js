@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import Button from "./components/button/Button";
+import Button from "pages/components/button/Button";
 import { registrationValidationSchema } from "utilities/validation";
 import { useRegisterUserMutation } from "store/authSlice";
 import withAuth from "utilities/withAuth";

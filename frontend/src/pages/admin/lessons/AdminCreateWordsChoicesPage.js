@@ -1,10 +1,10 @@
 import React from "react";
-import PageLayout from "./components/layout/PageLayout";
+import PageLayout from "pages/components/layout/PageLayout";
 import { useFormik } from "formik";
 import { wordChoiceValidationSchema } from "utilities/validation";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "./components/button/Button";
+import Button from "pages/components/button/Button";
 import withAdminProtection from "utilities/withAdminProtection";
 import { useCreateWordChoiceMutation } from "store/wordsChoicesSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";

@@ -3,10 +3,10 @@ import DataTable from "react-data-table-component";
 import { Link, useParams } from "react-router-dom";
 import { useShowResultQuery } from "store/userLessonsSlice";
 import withUserProtection from "utilities/withUserProtection";
-import { customStyles } from "./components/datatable/datatable";
-import ErrorPage from "./components/error/ErrorPage";
-import PageLayout from "./components/layout/PageLayout";
-import DataLoading from "./components/loading/DataLoading";
+import { customStyles } from "pages/components/datatable/datatable";
+import ErrorPage from "pages/components/error/ErrorPage";
+import PageLayout from "pages/components/layout/PageLayout";
+import DataLoading from "pages/components/loading/DataLoading";
 
 const UserLessonQuizResultPage = () => {
   const { lessonID } = useParams();

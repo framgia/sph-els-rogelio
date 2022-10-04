@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import withUserProtection from "utilities/withUserProtection";
-import Button from "./components/button/Button";
-import { customStyles } from "./components/datatable/datatable";
-import PageLayout from "./components/layout/PageLayout";
+import Button from "pages/components/button/Button";
+import { customStyles } from "pages/components/datatable/datatable";
+import PageLayout from "pages/components/layout/PageLayout";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { useNavigate } from "react-router-dom";
 import useAuth from "utilities/useAuth";
 import { checkUserExistence } from "utilities/checkUserExistence";
 import { useGetUsersListQuery } from "store/usersListSlice";
-import DataLoading from "./components/loading/DataLoading";
-import ErrorPage from "./components/error/ErrorPage";
+import DataLoading from "pages/components/loading/DataLoading";
+import ErrorPage from "pages/components/error/ErrorPage";
 import { useFollowUserMutation } from "store/followSlice";
 import { toast } from "react-toastify";
 

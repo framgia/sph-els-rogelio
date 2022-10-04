@@ -9,13 +9,13 @@ import { checkUserExistence } from "utilities/checkUserExistence";
 import { combineUsersActivities } from "utilities/combineUserActivities";
 import { countLearnedWords } from "utilities/countLearnedWords";
 import useAuth from "utilities/useAuth";
-import FollowActivity from "./components/activity/FollowActivity";
-import LessonActivity from "./components/activity/LessonActivity";
-import Button from "./components/button/Button";
-import ErrorPage from "./components/error/ErrorPage";
-import PageLayout from "./components/layout/PageLayout";
-import DataLoading from "./components/loading/DataLoading";
-import ListModal from "./components/modals/ListModal";
+import FollowActivity from "pages/components/activity/FollowActivity";
+import LessonActivity from "pages/components/activity/LessonActivity";
+import Button from "pages/components/button/Button";
+import ErrorPage from "pages/components/error/ErrorPage";
+import PageLayout from "pages/components/layout/PageLayout";
+import DataLoading from "pages/components/loading/DataLoading";
+import ListModal from "pages/components/modals/ListModal";
 
 const UserProfilePage = () => {
   const navigate = useNavigate();

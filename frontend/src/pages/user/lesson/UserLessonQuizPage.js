@@ -4,15 +4,15 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import withUserProtection from "utilities/withUserProtection";
-import PageLayout from "./components/layout/PageLayout";
-import Button from "./components/button/Button";
+import PageLayout from "pages/components/layout/PageLayout";
+import Button from "pages/components/button/Button";
 import { lessonQuizValidationSchema } from "utilities/validation";
 import {
   useGetUserLessonQuery,
   useValidateUserLessonMutation,
 } from "store/userLessonsSlice";
-import DataLoading from "./components/loading/DataLoading";
-import ErrorPage from "./components/error/ErrorPage";
+import DataLoading from "pages/components/loading/DataLoading";
+import ErrorPage from "pages/components/error/ErrorPage";
 import { toast } from "react-toastify";
 
 const UserLessonQuizPage = () => {

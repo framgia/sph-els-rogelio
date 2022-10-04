@@ -2,13 +2,13 @@ import React from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { useGetUserQuery } from "store/userSlice";
-import useAuth from "../utilities/useAuth";
-import ErrorPage from "./components/error/ErrorPage";
-import PageLayout from "./components/layout/PageLayout";
-import DataLoading from "./components/loading/DataLoading";
-import AvatarSection from "./components/settings/AvatarSection";
-import GeneralInfoSection from "./components/settings/GeneralInfoSection";
-import PasswordSection from "./components/settings/PasswordSection";
+import useAuth from "utilities/useAuth";
+import ErrorPage from "pages/components/error/ErrorPage";
+import PageLayout from "pages/components/layout/PageLayout";
+import DataLoading from "pages/components/loading/DataLoading";
+import AvatarSection from "pages/components/settings/AvatarSection";
+import GeneralInfoSection from "pages/components/settings/GeneralInfoSection";
+import PasswordSection from "pages/components/settings/PasswordSection";
 
 const UserProfileSettingsPage = () => {
   const { revalidate } = useAuth();
